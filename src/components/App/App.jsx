@@ -36,10 +36,10 @@ function App() {
   const theme = createTheme({
     palette: {
       primary: {
-        main: '#21690f',
-        light: '#EFF5EB',
-        dark: '#1C300E',
-        contrastText: '#fff'
+        main: '#EFF5EB',
+      },
+      secondary: {
+        main: '#1C300E',
       }
     },
     typography: {
