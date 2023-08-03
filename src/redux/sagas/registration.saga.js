@@ -18,7 +18,7 @@ function* registerUser(action) {
       throw new Error("Network response was not OK");
     }
     // automatically log a user in after registration
-    yield put({ type: 'LOGIN', payload: action.payload });
+    yield put({ type: 'LOGIN', payload: {username: action.payload.email, password: action.payload.password}});
 
     // set to 'login' mode so they see the login screen
     // after registration or after they log out

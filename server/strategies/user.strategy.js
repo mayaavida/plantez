@@ -37,16 +37,21 @@ passport.deserializeUser((id, done) => {
 // Does actual work of logging in
 passport.use(
   'local',
-  new LocalStrategy((username, password, done) => {
+  new LocalStrategy((email, password, done) => {
+    console.log({email, password})
     pool
-      .query('SELECT * FROM "user" WHERE username = $1', [username])
+      .query('SELECT * FROM "user" WHERE email = $1', [email])
       .then((result) => {
+        console.log({result});
         const user = result && result.rows && result.rows[0];
+        console.log({user});
         if (user && encryptLib.comparePassword(password, user.password)) {
+          console.log('Encrypt passed!')
           // All good! Passwords match!
           // done takes an error (null in this case) and a user
           done(null, user);
         } else {
+          console.log('Encrypt didnt pass');
           // Not good! Username and password do not match.
           // done takes an error (null in this case) and a user (also null in this case)
           // this will result in the server returning a 401 status code
