@@ -11,3 +11,15 @@ CREATE TABLE "user" (
   "email" VARCHAR (80) UNIQUE NOT NULL,
   "password" VARCHAR (1000) NOT NULL
 );
+
+CREATE TABLE "plants" (
+	"id" SERIAL PRIMARY KEY,
+	"nickname" VARCHAR (80) NOT NULL,
+	"last_watered_date" DATE,
+	"watering_interval" INT,
+	"next_watering_date" DATE,
+	"current_location" VARCHAR (1000),
+	"notes" VARCHAR (1000),
+	"plant_api_id" integer NOT NULL,
+	"user_id" integer REFERENCES "user"
+);
