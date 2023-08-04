@@ -11,10 +11,10 @@ function Nav() {
   const user = useSelector((store) => store.user);
 
   return (
-    <AppBar position='static'>
-      <Toolbar>
+    <AppBar position='static' >
+      <Toolbar sx={{justifyContent: 'space-between'}}>
         <Link to='/home'>
-          <img src={cover} alt='PlantEZ logo' width={200}/>
+          <img src={cover} alt='PlantEZ logo' width={200} />
         </Link>
         {!user.id && (
           // If there's no user, show login/registration links
