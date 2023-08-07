@@ -38,7 +38,7 @@ function Search() {
   }
 
   return (
-    <Card component="form" onSubmit={handleSearch}>
+    <Card component="form" onSubmit={handleSearch} sx={{maxWidth:600}}>
       <CardContent>
         <TextField
           label="Search for a plant"
