@@ -10,23 +10,20 @@ import {
 } from "@mui/material";
 
 
-//Does not work, figure out why
-const API_KEY = process.env.REACT_APP_PERENUAL_API_KEY;
-
 function Search() {
   const history = useHistory();
   const dispatch = useDispatch();
   const [queryString, setQueryString] = useState("");
 
-  //sending query to API upon click of search button
+  //sending query to server upon click of search button
   async function handleSearch(event) {
     event.preventDefault();
     const response = await fetch(
-      `https://perenual.com/api/species-list?key=${API_KEY}&q=${queryString}`
+      `/api/species-list?q=${queryString}`
     );
-    //NEED TO REMOVE API KEY
+
     const body = await response.json();
-    console.log(body.data);
+    console.log('Received on client side', body.data);
     setQueryString("");
 
     //Sending results of search to reducer
