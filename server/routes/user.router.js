@@ -9,10 +9,6 @@ const userStrategy = require('../strategies/user.strategy');
 const router = express.Router();
 
 router.use((req, res, next) => {
-  console.log('Method', req.method);
-  console.log('Original URL', req.originalUrl);
-  console.log('Body:', req.body);
-  console.log('');
   next();
 });
 

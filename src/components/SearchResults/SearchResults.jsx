@@ -7,14 +7,33 @@ function SearchResults() {
   const searchResults = useSelector((store) => store.searchResults);
   console.log(searchResults);
 
+  //Requesting plant details from API on server
+  const handleClick = async (event) => {
+    const plantId = event.target.id;
+    console.log(event.target);
+    const response = await fetch(`/api/species-details/${plantId}`);
+    const body = await response.json();
+    console.log("Received plant details on client side: ", body);
+  };
+
   return (
     <Box>
       <Typography variant="h3" component="h2">
         Search Results
       </Typography>
       <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+        {/* Create separate plant card component, send plant as prop, should be able to remove function from onClick to its own function*/}
         {searchResults.map((plant) => (
-          <Card sx={{ maxWidth: 275, margin: 3 }} id={plant.id}>
+          <Card
+            sx={{ maxWidth: 275, margin: 3 }}
+            id={plant.id}
+            onClick={async () => {
+              const response = await fetch(`/api/species-details/${plant.id}`);
+              const body = await response.json();
+              console.log("Received plant details on client side: ", body);
+            }}
+            key={plant.id}
+          >
             <CardContent>
               <Typography variant="h4" component="h4">
                 {plant.common_name.toUpperCase()}
@@ -35,7 +54,9 @@ function SearchResults() {
                 alt={plant.common_name}
               ></CardMedia>
             ) : (
-              <Typography variant="span" component="div">No image</Typography>
+              <Typography variant="span" component="div">
+                No image
+              </Typography>
             )}
           </Card>
         ))}

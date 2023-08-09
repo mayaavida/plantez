@@ -9,6 +9,7 @@ const passport = require('./strategies/user.strategy');
 // Route includes
 const userRouter = require('./routes/user.router');
 const speciesList = require('./routes/species.list.router');
+const speciesDetails = require('./routes/species.details.router');
 
 // Express middleware
 app.use(express.json());
@@ -23,6 +24,7 @@ app.use(passport.session());
 /* Routes */
 app.use('/api/user', userRouter);
 app.use('/api/species-list', speciesList);
+app.use('/api/species-details', speciesDetails);
 
 // Serve static files
 app.use(express.static('build'));

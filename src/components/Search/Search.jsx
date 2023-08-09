@@ -45,7 +45,7 @@ function Search() {
         />
       </CardContent>
       <CardActions>
-        <Button type="submit" variant="contained">
+        <Button type="submit" variant="contained" color='secondary'>
           Search
         </Button>
       </CardActions>
