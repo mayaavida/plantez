@@ -14,6 +14,7 @@ function RegisterForm() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [toggle, setToggle] = useState("Register");
   const errors = useSelector((store) => store.errors);
   const dispatch = useDispatch();
 
@@ -31,8 +32,10 @@ function RegisterForm() {
     });
   }; // end registerUser
 
+  
   return (
-    <Card component="form" onSubmit={registerUser} sx={{ maxWidth: 450 }}>
+   
+      <Card component="form" onSubmit={registerUser} sx={{ maxWidth: 450 }}>
       <CardContent>
         <Typography variant="h3" component="h3">
           Register User
@@ -76,9 +79,12 @@ function RegisterForm() {
         <Button type="submit" variant="contained">
           Register
         </Button>
+        <Button variant="outlined" onClick={setToggle("Login")}>
+          Login
+        </Button>
       </CardActions>
     </Card>
-  );
+    )
 }
 
 export default RegisterForm;

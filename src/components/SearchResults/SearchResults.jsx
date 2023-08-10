@@ -1,15 +1,18 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Typography, Card, CardContent, CardMedia, Box } from "@mui/material";
+import { Typography, Box, Button } from "@mui/material";
+import { useHistory } from 'react-router-dom';
 import PlantCard from "../PlantCard/PlantCard.jsx";
 
 function SearchResults() {
   //Grabbing search results from store
   const searchResults = useSelector((store) => store.searchResults);
+  const history = useHistory();
   console.log('Search results:', searchResults);
 
   return (
     <Box>
+      <Button onClick={history.goBack} variant='outlined' color='secondary'>Back to search</Button>
       <Typography variant="h3" component="h2">
         Search Results
       </Typography>

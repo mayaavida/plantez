@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import {
   Button,
@@ -17,6 +17,7 @@ import cover from '../../images/cover.png';
 function Search() {
   const history = useHistory();
   const dispatch = useDispatch();
+  const { id } = useSelector(store => store.user)
   const [queryString, setQueryString] = useState("");
 
   //sending query to server upon click of search button
@@ -42,7 +43,7 @@ function Search() {
     <Box>
       <Box component='img'src={cover}/>
       <Typography variant='h2' component='h1'>
-        Never kill your houseplants again
+        {id ? 'Find your household plants!' : 'Never kill your houseplants again'}
       </Typography>
        <Card component="form" onSubmit={handleSearch} sx={{maxWidth:600}}>
       <CardContent>
