@@ -11,7 +11,6 @@ router.get('/:id', async (req, res) => {
             `https://perenual.com/api/species/details/${req.params.id}?key=${process.env.API_KEY}`
         );
         const body = await response.json();
-        console.log('Plant details response on server side', body)
         res.send(body);
     } catch (error) {
         res.sendStatus(500);

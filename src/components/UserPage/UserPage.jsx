@@ -1,16 +1,44 @@
-import React from 'react';
-import LogOutButton from '../LogOutButton/LogOutButton';
-import {useSelector} from 'react-redux';
+import React from "react";
+import LogOutButton from "../LogOutButton/LogOutButton";
+import { useSelector } from "react-redux";
+import { useState, useEffect } from 'react';
+import { Box, Typography } from "@mui/material";
 
 function UserPage() {
-  // this component doesn't do much to start, just renders some user reducer info to the DOM
   const user = useSelector((store) => store.user);
+  const [userPlants, setUserPlants] = useState({});
+
+  const getUserPlants = () => {
+    fetch(`/api/plant/user/${user.id}`)
+      .then((response) => response.json())
+      .then((item) => {
+        setUserPlants(item);
+        console.log(userPlants);
+      });
+  };
+
+  useEffect(() => {
+    getUserPlants();
+  }, []);
+
   return (
-    <div className="container">
-      <h2>Welcome, {user.username}!</h2>
-      <p>Your ID is: {user.id}</p>
-      <LogOutButton className="btn" />
-    </div>
+    <Box>
+      <Box>
+        <Typography component="h2" variant="h3">
+          Hello, {user.first_name}!
+        </Typography>
+      </Box>
+      <Box display="flex">
+        <Box>
+          {userPlants.map(plant => (
+            <h2>{plant.nickname}</h2>
+          ))}
+        </Box>
+        <Box>
+          <LogOutButton />
+        </Box>
+      </Box>
+    </Box>
   );
 }
 

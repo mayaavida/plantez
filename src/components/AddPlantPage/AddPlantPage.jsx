@@ -1,54 +1,57 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { useState } from 'react';
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import {
-    Button,
-    Card,
-    CardContent,
-    CardActions,
-    TextField,
-    Typography,
-  } from "@mui/material";
-
-
+  Button,
+  Card,
+  CardContent,
+  CardActions,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 function AddPlantPage() {
-    const [nickname, setNickname] = useState('');
-    const [currentLocation, setCurrentLocation] = useState('');
-    const [lastWateredDate, setLastWateredDate] = useState('');
-    const [notes, setNotes] = useState('');
-    const plantToAdd = useSelector(store => store.plantDetails);
-    const user = useSelector(store => store.user);
-    console.log('plant to add:', plantToAdd)
-    console.log('user info', user);
+  const [nickname, setNickname] = useState("");
+  const [currentLocation, setCurrentLocation] = useState("");
+  //Need to fix this. Empty string causes error if user does not put in date
+  const [lastWateredDate, setLastWateredDate] = useState("");
+  const [notes, setNotes] = useState("");
+  const plantToAdd = useSelector((store) => store.plantDetails);
+  const user = useSelector((store) => store.user);
+  const history = useHistory();
 
-    const addPlantToHousehold = async (event) => {
-        event.preventDefault();
+  const addPlantToHousehold = async (event) => {
+    event.preventDefault();
 
-        const newPlant = {
-            userId: user.id,
-            plantId: plantToAdd.id,
-            nickname,
-            currentLocation,
-            lastWateredDate,
-            notes
-        };
+    const newPlant = {
+      userId: user.id,
+      plantId: plantToAdd.id,
+      nickname,
+      currentLocation,
+      lastWateredDate,
+      notes,
+    };
 
-        const response = await fetch('/api/plant/add', {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body:JSON.stringify(newPlant)
-        });
-      
+    //Any reason to use await here? I want to redirect to the user's dashboard once a plant is successfully added
+    fetch("/api/plant/add", {
+      method: "POST",
+      body: JSON.stringify(newPlant),
+      headers: { "Content-Type": "application/json" },
+    }).catch((error) => {
+      console.log(error);
+    });
 
-    }
+    history.push('/user')
+  };
 
-    return(
-        <Card component="form" onSubmit={addPlantToHousehold} sx={{ maxWidth: 450 }}>
+  return (
+    <Card
+      component="form"
+      onSubmit={addPlantToHousehold}
+      sx={{ maxWidth: 450 }}
+    >
       <CardContent>
         <Typography variant="h5" component="h5">
           Adding {plantToAdd.common_name.toUpperCase()} to household
@@ -66,14 +69,14 @@ function AddPlantPage() {
           value={currentLocation}
           onChange={(event) => setCurrentLocation(event.target.value)}
         />
-         <TextField
+        <TextField
           variant="outlined"
           type="date"
           label="Last Watered Date:"
           value={lastWateredDate}
           onChange={(event) => setLastWateredDate(event.target.value)}
         />
-         <TextField
+        <TextField
           variant="outlined"
           label="Notes:"
           multiline
@@ -87,8 +90,7 @@ function AddPlantPage() {
         </Button>
       </CardActions>
     </Card>
-    )
-
+  );
 }
 
 export default AddPlantPage;
