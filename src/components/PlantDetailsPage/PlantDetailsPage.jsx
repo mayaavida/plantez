@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Typography, Box, Button } from "@mui/material";
 
-
 function PlantDetailsPage() {
   const user = useSelector((store) => store.user);
   const history = useHistory();
@@ -21,11 +20,20 @@ function PlantDetailsPage() {
     default_image,
   } = useSelector((store) => store.plantDetails);
 
+  const combineArray = (arr) => {
+    if (arr.length > 1) {
+      return arr.join(", ");
+    } else {
+      return arr[0];
+    }
+  };
+
   return (
     <Box display="flex">
-        
       <Box display="flex" flexDirection="column" gap={2} sx={{ margin: 3 }}>
-      <Button onClick={history.goBack} variant='outlined' color='secondary'>Back to search results</Button>
+        <Button onClick={history.goBack} variant="outlined" color="secondary">
+          Back to search results
+        </Button>
         {/* //Is it possible to add text before common_name in alt? */}
         <Box
           component="img"
@@ -36,23 +44,19 @@ function PlantDetailsPage() {
           {common_name.toUpperCase()}
         </Typography>
         <Typography component="div" variant="h5">
-          Scientific Name(s): 
-          {scientific_name.map((name) => (
-            <Typography
-              variant="p"
-              sx={{ fontStyle: "italic" }}
-              key={name}
-            >
-              {name}
-            </Typography>
-          ))}
+          Scientific Name(s):
         </Typography>
+        <Typography variant="p" sx={{ fontStyle: "italic" }}>
+          {combineArray(scientific_name)}
+        </Typography>
+
         {user.id ? (
-            <Button variant="contained">Add to Household</Button>
-        ): (
-            <Button variant="contained">Login or Register to Add to Household</Button>
+          <Button variant="contained">Add to Household</Button>
+        ) : (
+          <Button variant="contained" onClick={()=>history.push('/login')}>
+            Login or Register to Add to Household
+          </Button>
         )}
-        
       </Box>
       <Box flexGrow={2} sx={{ margin: 3 }}>
         <Typography variant="h6" sx={{ fontWeight: "bold" }}>
@@ -60,19 +64,17 @@ function PlantDetailsPage() {
         </Typography>
         <Typography variant="p">{description}</Typography>
         <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-          Sunlight: 
+          Sunlight:
         </Typography>
-        {sunlight.map(instruction => (
-            <Typography variant='p'>{instruction}</Typography>
-        ))}
-         <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+        <Typography variant="p">{combineArray(sunlight)}</Typography>
+        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
           Watering requirements:
         </Typography>
         <Typography variant="p">{watering}</Typography>
-         <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
           Poisonous to pets?
         </Typography>
-        <Typography variant="p">{poisonous_to_pets ? 'Yes' : 'No'}</Typography>
+        <Typography variant="p">{poisonous_to_pets ? "Yes" : "No"}</Typography>
       </Box>
     </Box>
   );
