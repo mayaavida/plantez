@@ -48,7 +48,7 @@ function App() {
   });
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme} >
       <Router>
         <div>
           <Nav />

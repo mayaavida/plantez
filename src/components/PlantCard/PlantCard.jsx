@@ -9,9 +9,8 @@ function PlantCard({ plant }) {
     const { id, common_name, scientific_name, default_image } = plant;
 
   //Sending request to server, awaiting response from API
-  const handleClick = async (event) => {
-    const plantId = event.target.id;
-    const response = await fetch(`/api/species-details/${plantId}`);
+  const handleClick = async () => {
+    const response = await fetch(`/api/species-details/${id}`);
     const body = await response.json();
     console.log("Received plant details on client side: ", body);
 
@@ -26,9 +25,10 @@ function PlantCard({ plant }) {
   return (
     <Card
       sx={{ maxWidth: 275, margin: 3 }}
+      onClick={handleClick}
     >
       <CardContent>
-        <Typography variant="h4" component="h4" onClick={handleClick} id={id}>
+        <Typography variant="h4" component="h4">
           {common_name.toUpperCase()}
         </Typography>
         <Typography variant="h5" component="h5" sx={{ fontStyle: "italic" }}>
