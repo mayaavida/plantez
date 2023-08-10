@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Typography, Box, Button } from "@mui/material";
 
@@ -51,7 +51,7 @@ function PlantDetailsPage() {
         </Typography>
 
         {user.id ? (
-          <Button variant="contained">Add to Household</Button>
+          <Button variant="contained" onClick={()=>history.push('/add-plant')}>Add to Household</Button>
         ) : (
           <Button variant="contained" onClick={()=>history.push('/login')}>
             Login or Register to Add to Household

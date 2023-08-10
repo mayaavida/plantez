@@ -21,6 +21,7 @@ import RegisterPage from '../RegisterPage/RegisterPage';
 import SearchResults from '../SearchResults/SearchResults';
 import PlantDetailsPage from '../PlantDetailsPage/PlantDetailsPage';
 import SearchHome from '../SearchHome/SearchHome';
+import AddPlantPage from '../AddPlantPage/AddPlantPage';
 
 import './App.css';
 
@@ -106,6 +107,9 @@ function App() {
             </Route>
             <Route exact path="/plant-details"> 
               <PlantDetailsPage />
+            </Route>
+            <Route exact path="/add-plant"> 
+              <AddPlantPage />
             </Route>
 
             {/* If none of the other routes matched, we will show a 404. */}

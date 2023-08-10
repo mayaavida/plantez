@@ -8,8 +8,9 @@ const passport = require('./strategies/user.strategy');
 
 // Route includes
 const userRouter = require('./routes/user.router');
-const speciesList = require('./routes/species.list.router');
-const speciesDetails = require('./routes/species.details.router');
+const speciesListRouter = require('./routes/species.list.router');
+const speciesDetailsRouter = require('./routes/species.details.router');
+const plantRouter = require('./routes/plant.router');
 
 // Express middleware
 app.use(express.json());
@@ -23,8 +24,9 @@ app.use(passport.session());
 
 /* Routes */
 app.use('/api/user', userRouter);
-app.use('/api/species-list', speciesList);
-app.use('/api/species-details', speciesDetails);
+app.use('/api/species-list', speciesListRouter);
+app.use('/api/species-details', speciesDetailsRouter);
+app.use('/api/plant', plantRouter);
 
 // Serve static files
 app.use(express.static('build'));
