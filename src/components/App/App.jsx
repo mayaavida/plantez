@@ -16,10 +16,11 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 import UserPage from '../UserPage/UserPage';
-import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import SearchResults from '../SearchResults/SearchResults';
+import PlantDetailsPage from '../PlantDetailsPage/PlantDetailsPage';
+import SearchHome from '../SearchHome/SearchHome';
 
 import './App.css';
 
@@ -103,12 +104,15 @@ function App() {
                 // redirect them to the /user page
                 <Redirect to="/user" />
                 :
-                // Otherwise, show the Landing page
-                <LandingPage />
+                // Otherwise, show the SearchHome page
+                <SearchHome />
               }
             </Route>
             <Route exact path="/search"> 
               <SearchResults />
+            </Route>
+            <Route exact path="/plant-details"> 
+              <PlantDetailsPage />
             </Route>
 
             {/* If none of the other routes matched, we will show a 404. */}

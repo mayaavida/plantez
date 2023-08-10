@@ -7,7 +7,11 @@ import {
   CardContent,
   CardActions,
   TextField,
+  Box,
+  Typography
 } from "@mui/material";
+import cover from '../../images/cover.png';
+
 
 
 function Search() {
@@ -35,7 +39,12 @@ function Search() {
   }
 
   return (
-    <Card component="form" onSubmit={handleSearch} sx={{maxWidth:600}}>
+    <Box>
+      <Box component='img'src={cover}/>
+      <Typography variant='h2' component='h1'>
+        Never kill your houseplants again
+      </Typography>
+       <Card component="form" onSubmit={handleSearch} sx={{maxWidth:600}}>
       <CardContent>
         <TextField
           label="Search for a plant"
@@ -50,6 +59,8 @@ function Search() {
         </Button>
       </CardActions>
     </Card>
+    </Box>
+   
   );
 
 }
