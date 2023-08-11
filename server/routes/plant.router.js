@@ -5,10 +5,10 @@ const router = express.Router();
 //POST route
 router.post('/add', (req, res) => {
     console.log('Request from AddPlant: ', req.body);
-    const { nickname, plantId, userId, lastWateredDate, currentLocation, notes } = req.body;
+    const { nickname, plantId, userId, lastWateredDate, currentLocation, notes, imageUrl } = req.body;
     
-    const queryText = 'INSERT INTO "plants"("nickname", "plant_api_id", "user_id", "last_watered_date", "current_location", "notes") VALUES ($1, $2, $3, $4, $5, $6);';
-    pool.query(queryText, [nickname, plantId, userId, lastWateredDate, currentLocation, notes])
+    const queryText = 'INSERT INTO "plants"("nickname", "plant_api_id", "user_id", "last_watered_date", "current_location", "notes", "image_url") VALUES ($1, $2, $3, $4, $5, $6, $7);';
+    pool.query(queryText, [nickname, plantId, userId, lastWateredDate, currentLocation, notes, imageUrl])
     .then(()=> res.sendStatus(200))
     .catch((err) => {
         console.log('Add plant failed: ', err);

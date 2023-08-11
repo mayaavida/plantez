@@ -6,20 +6,9 @@ import { Box, Typography } from "@mui/material";
 
 function UserPage() {
   const user = useSelector((store) => store.user);
-  const [userPlants, setUserPlants] = useState({});
+  const userPlants = useSelector((store) => store.userPlants);
+  console.log(userPlants);
 
-  const getUserPlants = () => {
-    fetch(`/api/plant/user/${user.id}`)
-      .then((response) => response.json())
-      .then((item) => {
-        setUserPlants(item);
-        console.log(userPlants);
-      });
-  };
-
-  useEffect(() => {
-    getUserPlants();
-  }, []);
 
   return (
     <Box>
@@ -30,9 +19,6 @@ function UserPage() {
       </Box>
       <Box display="flex">
         <Box>
-          {userPlants.map(plant => (
-            <h2>{plant.nickname}</h2>
-          ))}
         </Box>
         <Box>
           <LogOutButton />

@@ -20,6 +20,7 @@ CREATE TABLE "plants" (
 	"next_watering_date" DATE,
 	"current_location" VARCHAR (1000),
 	"notes" VARCHAR (1000),
+	"image_url" VARCHAR (1000),
 	"plant_api_id" integer NOT NULL,
 	"user_id" integer REFERENCES "user"
 );

@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 
@@ -21,30 +21,48 @@ function AddPlantPage() {
   const plantToAdd = useSelector((store) => store.plantDetails);
   const user = useSelector((store) => store.user);
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  const addPlantToHousehold = async (event) => {
+  const newPlant = {
+    userId: user.id,
+    plantId: plantToAdd.id,
+    imageUrl: plantToAdd.default_image.small_url,
+    nickname,
+    currentLocation,
+    lastWateredDate,
+    notes,
+  };
+
+  const addPlantToHousehold = (event) => {
     event.preventDefault();
 
-    const newPlant = {
-      userId: user.id,
-      plantId: plantToAdd.id,
-      nickname,
-      currentLocation,
-      lastWateredDate,
-      notes,
-    };
-
-    //Any reason to use await here? I want to redirect to the user's dashboard once a plant is successfully added
+    const getUserPlants = () => {
+      fetch(`/api/plant/user/${user.id}`)
+        .then(response => response.json())
+        .then(data => {
+          console.log('User plants: ', data);
+          dispatch({type:'SET_USER_PLANTS', payload: data});
+        })
+        .catch(err => {
+          alert('error getting plants');
+          console.log(err);
+        })
+    }
+    
     fetch("/api/plant/add", {
       method: "POST",
       body: JSON.stringify(newPlant),
       headers: { "Content-Type": "application/json" },
-    }).catch((error) => {
+    }).then(response => {
+      getUserPlants();
+    })
+    .catch((error) => {
       console.log(error);
     });
 
     history.push('/user')
   };
+
 
   return (
     <Card
