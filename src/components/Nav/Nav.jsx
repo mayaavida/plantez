@@ -4,7 +4,7 @@ import LogOutButton from '../LogOutButton/LogOutButton';
 import './Nav.css';
 import { useSelector } from 'react-redux';
 import { Box, AppBar, Typography, Button, IconButton, Toolbar, Input } from '@mui/material';
-import cover from '../../images/cover.png';
+import planteez from '../../images/planteez.png';
 import InputIcon from '@mui/icons-material/Input';
 
 function Nav() {
@@ -14,7 +14,7 @@ function Nav() {
     <AppBar position='static' >
       <Toolbar sx={{justifyContent: 'space-between'}}>
         <Link to='/home'>
-          <img src={cover} alt='PlantEZ logo' width={200} />
+          <img src={planteez} alt='PlantEZ logo' height={30} />
         </Link>
         {!user.id && (
           // If there's no user, show login/registration links

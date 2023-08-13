@@ -4,9 +4,8 @@ import { useHistory } from "react-router-dom";
 import { Typography, Box, Button } from "@mui/material";
 
 function PlantDetailsPage() {
-  const user = useSelector((store) => store.user);
   const history = useHistory();
-
+  const user = useSelector((store) => store.user);
   const {
     id,
     common_name,
@@ -19,6 +18,10 @@ function PlantDetailsPage() {
     poisonous_to_pets,
     default_image,
   } = useSelector((store) => store.plantDetails);
+  
+  const userPlants = useSelector((store) => store.userPlants);
+  const currentPlant = userPlants.filter((plant) => plant.plant_api_id === id);
+
 
   const combineArray = (arr) => {
     if (arr.length > 1) {
@@ -32,7 +35,7 @@ function PlantDetailsPage() {
     <Box display="flex">
       <Box display="flex" flexDirection="column" gap={2} sx={{ margin: 3 }}>
         <Button onClick={history.goBack} variant="outlined" color="secondary">
-          Back to search results
+          Back
         </Button>
         {/* //Is it possible to add text before common_name in alt? */}
         <Box

@@ -1,6 +1,7 @@
 import React from "react";
 import LogOutButton from "../LogOutButton/LogOutButton";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from 'react-router-dom';
 import {
   Box,
   Typography,
@@ -8,12 +9,29 @@ import {
   CardContent,
   CardMedia,
   CardActions,
+  Button
 } from "@mui/material";
 
 function UserPage() {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const user = useSelector((store) => store.user);
   const userPlants = useSelector((store) => store.userPlants);
   console.log(userPlants);
+
+  const getPlantDetails = async (event) => {
+    const plantId = event.target.id;
+    const response = await fetch(`/api/species-details/${plantId}`);
+    const body = await response.json();
+    console.log("Received plant details on client side: ", body);
+
+    //Sending plant details from API to reducer
+    dispatch({type:'SET_PLANT_DETAILS', payload: body});
+
+    //Redirecting to plant details page
+    history.push('/plant-details')
+
+  };
 
   return (
     <Box>
@@ -43,6 +61,11 @@ function UserPage() {
                   No image available
                 </Typography>
               )}
+              <CardActions>
+                <Button onClick={getPlantDetails} id={plant.plant_api_id} color='secondary' >
+                  Details
+                </Button>
+              </CardActions>
             </Card>
           ))}
         </Box>

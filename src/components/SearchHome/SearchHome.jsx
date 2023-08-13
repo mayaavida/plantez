@@ -10,7 +10,7 @@ import {
   Box,
   Typography
 } from "@mui/material";
-import cover from '../../images/cover.png';
+import Logo from '../../images/Logo.png';
 
 
 
@@ -40,9 +40,9 @@ function Search() {
   }
 
   return (
-    <Box>
-      <Box component='img'src={cover}/>
-      <Typography variant='h2' component='h1'>
+    <Box display='flex' flexDirection='column' gap={5} alignItems='center'>
+      <Box component='img'src={Logo} maxWidth={400} marginTop={5}/>
+      <Typography variant='h3' component='h2'>
         {id ? 'Find your household plants!' : 'Never kill your houseplants again'}
       </Typography>
        <Card component="form" onSubmit={handleSearch} sx={{maxWidth:600}}>

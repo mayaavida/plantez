@@ -5,14 +5,11 @@ body,
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Montserrat', sans-serif;
   margin: 0px;
 }
 
-img {
-  display: inline-block;
-  max-width: 100%;
-}
+
 
 /* --------------------------------------------------------------------------------
 Container
