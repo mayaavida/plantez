@@ -8,11 +8,13 @@ function* fetchUser() {
       throw new Error("Network response was not OK");
     }
     const user = yield response.json();
+    console.log(user);
 
     // now that the session has given us a user object
     // with an id and username set the client-side user object to let
     // the client-side code know the user is logged in
     yield put({ type: 'SET_USER', payload: user });
+    yield put({ type: 'FETCH_USER_PLANTS', payload: user.id});
   } catch (error) {
     console.log('User get request failed', error);
   }
