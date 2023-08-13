@@ -14,7 +14,7 @@ function Nav() {
     <AppBar position='static' >
       <Toolbar sx={{justifyContent: 'space-between'}}>
         <Link to='/home'>
-          <img src={planteez} alt='PlantEZ logo' height={30} />
+          <img src={planteez} alt='PlantEZ logo' height={25} />
         </Link>
         {!user.id && (
           // If there's no user, show login/registration links
