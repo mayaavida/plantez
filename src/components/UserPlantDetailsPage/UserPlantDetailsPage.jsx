@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { Typography, Box, Button } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 
@@ -86,7 +86,10 @@ function UserPlantDetailsPage() {
         </Button>
       </Box>
       <Box flexGrow={2} sx={{ margin: 3 }}>
-        {/* <EditIcon onClick={history.push('/edit-plant')}/> */}
+        <Link to='/edit-plant'>
+           <EditIcon/> Edit Plant
+        </Link>
+     
         <Typography variant="h3">"{nickname}"</Typography>
         <Typography variant="h6" sx={{ fontWeight: "bold" }}>
           Last Watered:

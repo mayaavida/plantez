@@ -12,7 +12,6 @@ import {
   Input,
 } from "@mui/material";
 import planteez from "../../images/planteez.png";
-import InputIcon from "@mui/icons-material/Input";
 
 function Nav() {
   const user = useSelector((store) => store.user);

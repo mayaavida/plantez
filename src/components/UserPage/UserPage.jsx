@@ -1,7 +1,6 @@
 import React from "react";
-import LogOutButton from "../LogOutButton/LogOutButton";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -9,8 +8,9 @@ import {
   CardContent,
   CardMedia,
   CardActions,
-  Button
+  Button,
 } from "@mui/material";
+import plant from "../../images/plant.png";
 
 function UserPage() {
   const dispatch = useDispatch();
@@ -19,34 +19,41 @@ function UserPage() {
   const userPlants = useSelector((store) => store.userPlants);
 
   const getPlantDetails = async (plantApi, plantId) => {
-
     //Getting details from API for specific plant
     const apiResponse = await fetch(`/api/species-details/${plantApi}`);
     const apiBody = await apiResponse.json();
 
     //Sending plant details from API to reducer
-    dispatch({type:'SET_PLANT_DETAILS', payload: apiBody});
+    dispatch({ type: "SET_PLANT_DETAILS", payload: apiBody });
 
     //Getting user details for specific plant
     const userPlantDetails = userPlants.filter((plant) => plant.id === plantId);
 
     //Sending user details on plant to reducer
-    dispatch({type: 'SET_USER_PLANT_DETAILS', payload: userPlantDetails[0]});
+    dispatch({ type: "SET_USER_PLANT_DETAILS", payload: userPlantDetails[0] });
 
     //Redirecting to plant details page
-    history.push('/user-plant-details')
-
+    history.push("/user-plant-details");
   };
 
   return (
     <Box>
-      <Box>
-        <Typography component="h2" variant="h3">
-          Hello, {user.first_name}!
+      <Box sx={{ width: 400, margin: "auto", padding: 4 }}>
+        <Typography component="div" variant="h3">
+          Hello, {user.first_name}! 
+          <img src={plant} alt='icon of PlantEZ plant' height={50}/>
         </Typography>
       </Box>
       <Box display="flex">
-        <Box display="flex" flexWrap='wrap' gap={3} margin={3} padding={1} sx={{border: 1, borderRadius:1, borderColor:'primary'}}>
+        <Box
+          display="flex"
+          flexWrap="wrap"
+          gap={3}
+          marginLeft={3}
+          padding={2}
+          justifyContent="space-evenly"
+          sx={{ border: 0.5, borderRadius: 1 }}
+        >
           {userPlants.map((plant) => (
             <Card key={plant.nickname}>
               <CardContent>
@@ -67,18 +74,39 @@ function UserPage() {
                 </Typography>
               )}
               <CardActions>
-                <Button onClick={()=>getPlantDetails(plant.plant_api_id, plant.id)} color='secondary' >
+                <Button
+                  onClick={() => getPlantDetails(plant.plant_api_id, plant.id)}
+                  color="secondary"
+                >
                   Details
                 </Button>
               </CardActions>
             </Card>
           ))}
         </Box>
-        <Box display='flex' flexWrap='wrap' flexDirection='column' gap={3} margin={3} padding={1} sx={{border: 1, borderRadius:1, borderColor:'primary'}}>
-          <Typography component='div' variant="h3">
+        <Box
+          display="flex"
+          flexWrap="wrap"
+          flexDirection="column"
+          flexGrow={2}
+          gap={3}
+          marginLeft={3}
+          marginRight={3}
+          padding={2}
+          minWidth={250}
+          sx={{ border: 0.5, borderRadius: 1 }}
+        >
+           <Typography component="div" variant="h4">
+            Household Summary
+          </Typography>
+          <Typography component="div" variant="h5">
             Total Plants: {userPlants.length}
           </Typography>
-          <LogOutButton />
+          <Link to="/home">
+            <Button variant="contained" color="secondary">
+              Add more plants
+            </Button>
+          </Link>
         </Box>
       </Box>
     </Box>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
   Button,
@@ -7,61 +8,79 @@ import {
   CardActions,
   TextField,
   Typography,
+  Box,
+  autocompleteClasses,
 } from "@mui/material";
 
 function EditPlantPage() {
   const { nickname, current_location, last_watered_date, notes, id, user_id } =
     useSelector((store) => store.userPlantDetails);
-  const [newNickname, setNewNickname] = useState("");
-  const [newLocation, setNewLocation] = useState("");
-  const [newWateredDate, setNewWateredDate] = useState("");
-  const [newNotes, setNewNotes] = useState("");
+  const history = useHistory();
+  const [newNickname, setNewNickname] = useState(nickname);
+  const [newLocation, setNewLocation] = useState(current_location);
+  const [newWateredDate, setNewWateredDate] = useState(last_watered_date);
+  const [newNotes, setNewNotes] = useState(notes);
 
   const updatePlant = () => {};
 
   return (
-    <Card component="form" onSubmit={updatePlant} sx={{ maxWidth: 450 }}>
-      <CardContent>
+    <Box>
+      <Button
+        onClick={history.goBack}
+        variant="outlined"
+        color="secondary"
+        sx={{ margin: 2 }}
+      >
+        Back
+      </Button>
+      <Box
+        component="form"
+        onSubmit={updatePlant}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+          padding: 3,
+          margin: 'auto',
+          width: 500,
+          justifyContent: "center",
+        }}
+      >
         <Typography variant="h3" component="h3">
           Editing "{nickname}"
         </Typography>
         <TextField
           variant="outlined"
-          label={nickname}
-          value={newNickname}
+          defaultValue={newNickname}
           onChange={(event) => setNewNickname(event.target.value)}
           helperText="Nickname"
         />
         <TextField
           variant="outlined"
-          label={current_location}
-          value={newLocation}
+          defaultValue={newLocation}
           onChange={(event) => setNewLocation(event.target.value)}
           helperText="Current Location"
         />
         <TextField
           variant="outlined"
-          label={last_watered_date}
           type="date"
-          value={newWateredDate}
+          defaultValue={newWateredDate}
           onChange={(event) => setNewWateredDate(event.target.value)}
           helperText="Last Watered Date"
         />
         <TextField
           variant="outlined"
-          label={notes}
-          value={newNotes}
+          defaultValue={newNotes}
           onChange={(event) => setNewNotes(event.target.value)}
+          rows={4}
           multiline
           helperText="Notes"
         />
-      </CardContent>
-      <CardActions>
         <Button type="submit" variant="contained">
           Save Changes
         </Button>
-      </CardActions>
-    </Card>
+      </Box>
+    </Box>
   );
 }
 
