@@ -1,10 +1,13 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Typography, Box, Button } from "@mui/material";
+import EditIcon from '@mui/icons-material/Edit';
+
 
 function UserPlantDetailsPage() {
   const history = useHistory();
+  const dispatch = useDispatch();
   const {
     common_name,
     scientific_name,
@@ -16,9 +19,9 @@ function UserPlantDetailsPage() {
     poisonous_to_pets,
     default_image,
   } = useSelector((store) => store.plantDetails);
-  
-  const { nickname, current_location, last_watered_date, notes, id, user_id } = useSelector((store) => store.userPlantDetails);
 
+  const { nickname, current_location, last_watered_date, notes, id, user_id } =
+    useSelector((store) => store.userPlantDetails);
 
   const combineArray = (arr) => {
     if (arr.length > 1) {
@@ -29,31 +32,34 @@ function UserPlantDetailsPage() {
   };
 
   const removePlant = (id) => {
-
     const getUserPlants = () => {
-        fetch(`/api/plant/user/${user_id}`)
-          .then(response => response.json())
-          .then(data => {
-            console.log('User plants: ', data);
-            dispatch({type:'SET_USER_PLANTS', payload: data});
-          })
-          .catch(err => {
-            alert('error getting plants');
-            console.log(err);
-          })
-      }
-      
-      fetch(`/api/plant/delete/${id}`, {
-        method: "DELETE",
-      }).then(response => {
+      fetch(`/api/plant/user/${user_id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Fetched user plants: ", data);
+          dispatch({ type: "SET_USER_PLANTS", payload: data });
+        })
+        .catch((err) => {
+          alert("error getting plants");
+          console.log(err);
+        });
+    };
+
+    fetch(`/api/plant/delete/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
         getUserPlants();
       })
       .catch((error) => {
-        console.log('Error deleting plant: ', error);
+        console.log("Error deleting plant: ", error);
       });
-  
-      history.push('/user')
-  }
+
+    history.push("/user");
+  };
 
   return (
     <Box display="flex">
@@ -61,7 +67,6 @@ function UserPlantDetailsPage() {
         <Button onClick={history.goBack} variant="outlined" color="secondary">
           Back
         </Button>
-        {/* //Is it possible to add text before common_name in alt? */}
         <Box
           component="img"
           alt={common_name}
@@ -76,12 +81,13 @@ function UserPlantDetailsPage() {
         <Typography variant="p" sx={{ fontStyle: "italic" }}>
           {combineArray(scientific_name)}
         </Typography>
-          <Button variant="contained" onClick={()=>removePlant(id)}>Remove from Household</Button>
+        <Button variant="contained" onClick={() => removePlant(id)}>
+          Remove from Household
+        </Button>
       </Box>
       <Box flexGrow={2} sx={{ margin: 3 }}>
-        <Typography variant="h3">
-            "{nickname}"
-        </Typography>
+        {/* <EditIcon onClick={history.push('/edit-plant')}/> */}
+        <Typography variant="h3">"{nickname}"</Typography>
         <Typography variant="h6" sx={{ fontWeight: "bold" }}>
           Last Watered:
         </Typography>

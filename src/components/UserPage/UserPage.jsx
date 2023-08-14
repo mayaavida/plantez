@@ -17,7 +17,6 @@ function UserPage() {
   const history = useHistory();
   const user = useSelector((store) => store.user);
   const userPlants = useSelector((store) => store.userPlants);
-  console.log(userPlants);
 
   const getPlantDetails = async (plantApi, plantId) => {
 

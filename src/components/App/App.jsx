@@ -23,6 +23,7 @@ import PlantDetailsPage from '../PlantDetailsPage/PlantDetailsPage';
 import SearchHome from '../SearchHome/SearchHome';
 import AddPlantPage from '../AddPlantPage/AddPlantPage';
 import UserPlantDetailsPage from '../UserPlantDetailsPage/UserPlantDetailsPage';
+import EditPlantPage from '../EditPlantPage/EditPlantPage';
 
 import './App.css';
 
@@ -114,6 +115,9 @@ function App() {
             </Route>
             <Route exact path ='/user-plant-details'>
               <UserPlantDetailsPage />
+            </Route>
+            <Route exact path = '/edit-plant'>
+              <EditPlantPage />
             </Route>
 
             {/* If none of the other routes matched, we will show a 404. */}
