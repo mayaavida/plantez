@@ -18,7 +18,7 @@ router.post('/add', (req, res) => {
 
 //GET route
 router.get('/user/:id', (req, res) => {
-    const userId = req.params.id;;
+    const userId = req.params.id;
     pool.query('SELECT * FROM "plants" WHERE "user_id" = $1', [userId])
     .then((result) => {
         res.send(result.rows);
@@ -26,6 +26,17 @@ router.get('/user/:id', (req, res) => {
         console.log('Error GET /api/user/:id', error)
         res.sendStatus(500);
     });
+})
+
+//DELETE route
+router.get('/delete/:id', (req, res) => {
+    const plantId = req.params.id;
+    pool.query('DELETE FROM "plants" WHERE "id" = $1', [plantId])
+    .then(() => res.sendStatus(200))
+    .catch((err) => {
+        console.log('Error deleting plant: ', err);
+        res.sendStatus(500);
+    })
 })
 
 

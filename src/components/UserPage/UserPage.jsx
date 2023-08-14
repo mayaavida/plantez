@@ -19,17 +19,23 @@ function UserPage() {
   const userPlants = useSelector((store) => store.userPlants);
   console.log(userPlants);
 
-  const getPlantDetails = async (event) => {
-    const plantId = event.target.id;
-    const response = await fetch(`/api/species-details/${plantId}`);
-    const body = await response.json();
-    console.log("Received plant details on client side: ", body);
+  const getPlantDetails = async (plantApi, plantId) => {
+
+    //Getting details from API for specific plant
+    const apiResponse = await fetch(`/api/species-details/${plantApi}`);
+    const apiBody = await apiResponse.json();
 
     //Sending plant details from API to reducer
-    dispatch({type:'SET_PLANT_DETAILS', payload: body});
+    dispatch({type:'SET_PLANT_DETAILS', payload: apiBody});
+
+    //Getting user details for specific plant
+    const userPlantDetails = userPlants.filter((plant) => plant.id === plantId);
+
+    //Sending user details on plant to reducer
+    dispatch({type: 'SET_USER_PLANT_DETAILS', payload: userPlantDetails[0]});
 
     //Redirecting to plant details page
-    history.push('/plant-details')
+    history.push('/user-plant-details')
 
   };
 
@@ -46,7 +52,7 @@ function UserPage() {
             <Card key={plant.nickname}>
               <CardContent>
                 <Typography component="h5" variant="h5">
-                  {plant.nickname}
+                  "{plant.nickname}"
                 </Typography>
               </CardContent>
               {plant.image_url ? (
@@ -62,7 +68,7 @@ function UserPage() {
                 </Typography>
               )}
               <CardActions>
-                <Button onClick={getPlantDetails} id={plant.plant_api_id} color='secondary' >
+                <Button onClick={()=>getPlantDetails(plant.plant_api_id, plant.id)} color='secondary' >
                   Details
                 </Button>
               </CardActions>
