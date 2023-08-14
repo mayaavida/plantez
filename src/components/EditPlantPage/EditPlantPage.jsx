@@ -16,12 +16,56 @@ function EditPlantPage() {
   const { nickname, current_location, last_watered_date, notes, id, user_id } =
     useSelector((store) => store.userPlantDetails);
   const history = useHistory();
+  const dispatch = useDispatch();
   const [newNickname, setNewNickname] = useState(nickname);
   const [newLocation, setNewLocation] = useState(current_location);
   const [newWateredDate, setNewWateredDate] = useState(last_watered_date);
   const [newNotes, setNewNotes] = useState(notes);
 
-  const updatePlant = () => {};
+  const updatePlant = (event) => {
+    event.preventDefault();
+    console.log('New details: ', {
+        newNickname,
+        newLocation,
+        newWateredDate, 
+        newNotes
+    })
+
+    const getUserPlants = () => {
+        fetch(`/api/plant/user/${user_id}`)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Fetched user plants: ", data);
+            dispatch({ type: "SET_USER_PLANTS", payload: data });
+          })
+          .catch((err) => {
+            alert("error getting plants");
+            console.log(err);
+          });
+      };
+  
+      fetch(`/api/plant/update/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            nickname: newNickname,
+            location: newLocation,
+            wateredDate: newWateredDate,
+            notes: newNotes
+        })
+      })
+        .then((response) => {
+          getUserPlants();
+        })
+        .catch((error) => {
+          console.log("Error deleting plant: ", error);
+        });
+  
+      history.push("/user");
+    
+  };
 
   return (
     <Box>
