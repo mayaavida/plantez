@@ -12,9 +12,9 @@ function SearchResults() {
 
   return (
     <Box>
-      <Button onClick={history.goBack} variant='outlined' color='secondary'>Back to search</Button>
-      <Typography variant="h3" component="h2">
-        Search Results
+      <Button onClick={history.goBack} variant='outlined' color='secondary' sx={{margin:3}}>Back to search</Button>
+      <Typography variant="h4" component="div" sx={{margin:3, marginTop:0}}>
+        Search Results:
       </Typography>
       <Box sx={{ display: "flex", flexWrap: "wrap" }}>
         {/* Create separate plant card component, send plant as prop, should be able to remove function from onClick to its own function*/}

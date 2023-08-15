@@ -1,0 +1,9 @@
+.plant-card:hover{
+    cursor: pointer;
+}
+
+.plant-card{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
