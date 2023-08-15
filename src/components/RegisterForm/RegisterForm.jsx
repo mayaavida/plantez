@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import {
   Button,
   Card,
@@ -34,9 +34,13 @@ function RegisterForm() {
   }; // end registerUser
 
   return (
-    <Card component="form" onSubmit={registerUser} sx={{ maxWidth: 450 }}>
+    <Card
+      component="form"
+      onSubmit={registerUser}
+      sx={{ maxWidth: 500, padding: 2 }}
+    >
       <CardContent>
-        <Typography variant="h3" component="h3">
+        <Typography variant="h3" component="div" sx={{ margin: 1 }}>
           Register User
         </Typography>
         {errors.registrationMessage && (
@@ -50,6 +54,7 @@ function RegisterForm() {
           value={firstName}
           onChange={(event) => setFirstName(event.target.value)}
           required
+          sx={{ margin: 1 }}
         />
         <TextField
           variant="outlined"
@@ -57,6 +62,7 @@ function RegisterForm() {
           value={lastName}
           onChange={(event) => setLastName(event.target.value)}
           required
+          sx={{ margin: 1 }}
         />
         <TextField
           variant="outlined"
@@ -64,6 +70,7 @@ function RegisterForm() {
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           required
+          sx={{ margin: 1 }}
         />
         <TextField
           variant="outlined"
@@ -72,13 +79,22 @@ function RegisterForm() {
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           required
+          sx={{ margin: 1 }}
         />
       </CardContent>
-      <CardActions>
-        <Button type="submit" variant="contained">
+      <CardActions sx={{ margin: 1, marginTop: 0 }}>
+        <Button
+          type="submit"
+          variant="contained"
+          sx={{ margin: 1, marginTop: 0 }}
+        >
           Register
         </Button>
-        <Button variant="contained" onClick={()=>history.push('/login')}>
+        <Button
+          variant="contained"
+          onClick={() => history.push("/login")}
+          sx={{ margin: 1, marginTop: 0 }}
+        >
           Already have an account? Login
         </Button>
       </CardActions>

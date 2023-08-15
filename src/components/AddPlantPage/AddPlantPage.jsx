@@ -3,14 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-import {
-  Button,
-  Card,
-  CardContent,
-  CardActions,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Button, Box, TextField, Typography } from "@mui/material";
 
 function AddPlantPage() {
   const [nickname, setNickname] = useState("");
@@ -38,76 +31,91 @@ function AddPlantPage() {
 
     const getUserPlants = () => {
       fetch(`/api/plant/user/${user.id}`)
-        .then(response => response.json())
-        .then(data => {
-          console.log('User plants: ', data);
-          dispatch({type:'SET_USER_PLANTS', payload: data});
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("User plants: ", data);
+          dispatch({ type: "SET_USER_PLANTS", payload: data });
         })
-        .catch(err => {
-          alert('error getting plants');
+        .catch((err) => {
+          alert("error getting plants");
           console.log(err);
-        })
-    }
-    
+        });
+    };
+
     fetch("/api/plant/add", {
       method: "POST",
       body: JSON.stringify(newPlant),
       headers: { "Content-Type": "application/json" },
-    }).then(response => {
-      getUserPlants();
     })
-    .catch((error) => {
-      console.log(error);
-    });
+      .then((response) => {
+        getUserPlants();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
-    history.push('/user')
+    history.push("/user");
   };
 
-
   return (
-    <Card
-      component="form"
-      onSubmit={addPlantToHousehold}
-      sx={{ maxWidth: 450 }}
-    >
-      <CardContent>
+    <Box>
+      <Button
+        onClick={history.goBack}
+        variant="outlined"
+        color="secondary"
+        sx={{ margin: 2 }}
+      >
+        Back
+      </Button>
+      <Box
+        component="form"
+        onSubmit={addPlantToHousehold}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+          padding: 3,
+          margin: 'auto',
+          width: 500,
+          justifyContent: "center",
+        }}
+      >
         <Typography variant="h5" component="h5">
           Adding {plantToAdd.common_name.toUpperCase()} to household
         </Typography>
         <TextField
           variant="outlined"
-          label="Nickname:"
+          helperText="Nickname:"
           value={nickname}
           onChange={(event) => setNickname(event.target.value)}
           required
         />
         <TextField
           variant="outlined"
-          label="Current Location:"
+          helperText="Current Location:"
           value={currentLocation}
           onChange={(event) => setCurrentLocation(event.target.value)}
         />
         <TextField
           variant="outlined"
           type="date"
-          label="Last Watered Date:"
+          helperText="Last Watered Date:"
           value={lastWateredDate}
           onChange={(event) => setLastWateredDate(event.target.value)}
         />
         <TextField
           variant="outlined"
-          label="Notes:"
+          helperText="Notes:"
+          rows={4}
           multiline
           value={notes}
           onChange={(event) => setNotes(event.target.value)}
         />
-      </CardContent>
-      <CardActions>
         <Button type="submit" variant="contained">
           Add to Household
         </Button>
-      </CardActions>
-    </Card>
+      </Box>
+    </Box>
   );
 }
 
