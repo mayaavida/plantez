@@ -2,8 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
 import { Typography, Box, Button } from "@mui/material";
-import EditIcon from '@mui/icons-material/Edit';
-
+import EditIcon from "@mui/icons-material/Edit";
 
 function UserPlantDetailsPage() {
   const history = useHistory();
@@ -31,19 +30,20 @@ function UserPlantDetailsPage() {
     }
   };
 
+  const getUserPlants = () => {
+    fetch(`/api/plant/user/${user_id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Fetched user plants: ", data);
+        dispatch({ type: "SET_USER_PLANTS", payload: data });
+      })
+      .catch((err) => {
+        alert("error getting plants");
+        console.log(err);
+      });
+  };
+
   const removePlant = (id) => {
-    const getUserPlants = () => {
-      fetch(`/api/plant/user/${user_id}`)
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Fetched user plants: ", data);
-          dispatch({ type: "SET_USER_PLANTS", payload: data });
-        })
-        .catch((err) => {
-          alert("error getting plants");
-          console.log(err);
-        });
-    };
 
     fetch(`/api/plant/delete/${id}`, {
       method: "DELETE",
@@ -63,8 +63,15 @@ function UserPlantDetailsPage() {
 
   return (
     <Box display="flex">
-      <Box display="flex" flexDirection="column" gap={2} sx={{ margin: 3 }}>
-        <Button onClick={history.goBack} variant="outlined" color="secondary">
+      <Box
+        display="flex"
+        flexDirection="column"
+        gap={2}
+        sx={{ margin: 3 }}
+        justifyContent="flex-start"
+        alignItems="flex-start"
+      >
+        <Button onClick={history.goBack} variant="outlined" color="secondary" sx={{width: 200}}>
           Back
         </Button>
         <Box
@@ -72,24 +79,29 @@ function UserPlantDetailsPage() {
           alt={common_name}
           src={default_image ? default_image.small_url : "Image unavailable"}
         />
-        <Typography component="div" variant="h4">
+        <Typography component="div" variant="h5">
           {common_name.toUpperCase()}
         </Typography>
-        <Typography component="div" variant="h5">
+        <Typography component="div" variant="h6">
           Scientific Name(s):
         </Typography>
         <Typography variant="p" sx={{ fontStyle: "italic" }}>
           {combineArray(scientific_name)}
         </Typography>
-        <Button variant="contained" onClick={() => removePlant(id)}>
-          Remove from Household
-        </Button>
       </Box>
-      <Box flexGrow={2} sx={{ margin: 3 }}>
-        <Link to='/edit-plant'>
-           <EditIcon/> Edit Plant
+      <Box
+        flexGrow={2}
+        sx={{ margin: 3 }}
+        display="flex"
+        flexDirection="column"
+        gap={1}
+        justifyContent="flex-start"
+        alignItems="flex-start"
+      >
+        <Link to="/edit-plant">
+          <EditIcon /> Edit Plant
         </Link>
-     
+
         <Typography variant="h3">"{nickname}"</Typography>
         <Typography variant="h6" sx={{ fontWeight: "bold" }}>
           Last Watered:
@@ -115,6 +127,9 @@ function UserPlantDetailsPage() {
           Notes:
         </Typography>
         <Typography variant="p">{notes}</Typography>
+        <Button variant="contained" onClick={() => removePlant(id)}>
+          Remove from Household
+        </Button>
       </Box>
     </Box>
   );

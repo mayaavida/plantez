@@ -15,6 +15,7 @@ router.post("/add", (req, res) => {
     imageUrl,
   } = req.body;
 
+  //Could do calculation in insert for next_watered_date
   const queryText =
     'INSERT INTO "plants"("nickname", "plant_api_id", "user_id", "last_watered_date", "current_location", "notes", "image_url") VALUES ($1, $2, $3, $4, $5, $6, $7);';
   pool
@@ -38,7 +39,7 @@ router.post("/add", (req, res) => {
 router.get("/user/:id", (req, res) => {
   const userId = req.params.id;
   pool
-    .query('SELECT * FROM "plants" WHERE "user_id" = $1', [userId])
+    .query(`SELECT id, nickname, TO_CHAR(last_watered_date, 'dd/mm/yyyy') AS last_watered_date, watering_interval, TO_CHAR(next_watering_date, 'dd/mm/yyyy') AS next_watering_date, current_location, notes, image_url, plant_api_id, user_id FROM "plants" WHERE "user_id" = $1;`, [userId])
     .then((result) => {
       res.send(result.rows);
     })
@@ -49,8 +50,9 @@ router.get("/user/:id", (req, res) => {
 });
 
 //DELETE route
-router.get("/delete/:id", (req, res) => {
+router.delete("/delete/:id", (req, res) => {
   const plantId = req.params.id;
+  console.log('This is the plantId on server side: ', plantId);
   pool
     .query('DELETE FROM "plants" WHERE "id" = $1', [plantId])
     .then(() => res.sendStatus(200))
