@@ -1,58 +1,60 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import {
   HashRouter as Router,
   Redirect,
   Route,
   Switch,
-} from 'react-router-dom';
+} from "react-router-dom";
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 
-import Nav from '../Nav/Nav';
-import Footer from '../Footer/Footer';
+import Nav from "../Nav/Nav";
+import Footer from "../Footer/Footer";
 
-import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
-import UserPage from '../UserPage/UserPage';
-import LoginPage from '../LoginPage/LoginPage';
-import RegisterPage from '../RegisterPage/RegisterPage';
-import SearchResults from '../SearchResults/SearchResults';
-import PlantDetailsPage from '../PlantDetailsPage/PlantDetailsPage';
-import SearchHome from '../SearchHome/SearchHome';
-import AddPlantPage from '../AddPlantPage/AddPlantPage';
-import UserPlantDetailsPage from '../UserPlantDetailsPage/UserPlantDetailsPage';
-import EditPlantPage from '../EditPlantPage/EditPlantPage';
-import CloudinaryUploadWidget from '../CloudinaryUploadWidget/CloudinaryUploadWidget';
+import UserPage from "../UserPage/UserPage";
+import LoginPage from "../LoginPage/LoginPage";
+import RegisterPage from "../RegisterPage/RegisterPage";
+import SearchResults from "../SearchResults/SearchResults";
+import PlantDetailsPage from "../PlantDetailsPage/PlantDetailsPage";
+import SearchHome from "../SearchHome/SearchHome";
+import AddPlantPage from "../AddPlantPage/AddPlantPage";
+import UserPlantDetailsPage from "../UserPlantDetailsPage/UserPlantDetailsPage";
+import EditPlantPage from "../EditPlantPage/EditPlantPage";
+import TechPage from "../TechPage/TechPage";
 
-import './App.css';
+import CloudinaryUploadWidget from "../CloudinaryUploadWidget/CloudinaryUploadWidget";
+
+import "./App.css";
 
 function App() {
   const dispatch = useDispatch();
 
-  const user = useSelector(store => store.user);
+  const user = useSelector((store) => store.user);
 
   useEffect(() => {
-    dispatch({ type: 'FETCH_USER' });
+    dispatch({ type: "FETCH_USER" });
   }, [dispatch]);
 
   const theme = createTheme({
     palette: {
       primary: {
-        main: '#EFF5EB',
+        main: "#EFF5EB",
       },
       secondary: {
-        main: '#1C300E',
-      }
+        main: "#1C300E",
+      },
     },
     typography: {
-      fontFamily: 'Montserrat, sans-serif',
+      fontFamily: "Montserrat, sans-serif",
     },
   });
 
   return (
-    <ThemeProvider theme={theme} >
+    <ThemeProvider theme={theme}>
       <Router>
         <div>
           <Nav />
@@ -71,57 +73,51 @@ function App() {
               <UserPage />
             </ProtectedRoute>
 
-            <Route
-              exact
-              path="/login"
-            >
-              {user.id ?
-                // If the user is already logged in, 
+            <Route exact path="/login">
+              {user.id ? (
+                // If the user is already logged in,
                 // redirect to the /user page
                 <Redirect to="/user" />
-                :
+              ) : (
                 // Otherwise, show the login page
                 <LoginPage />
-              }
+              )}
             </Route>
 
-            <Route
-              exact
-              path="/registration"
-            >
-              {user.id ?
-                // If the user is already logged in, 
+            <Route exact path="/registration">
+              {user.id ? (
+                // If the user is already logged in,
                 // redirect them to the /user page
                 <Redirect to="/user" />
-                :
+              ) : (
                 // Otherwise, show the registration page
                 <RegisterPage />
-              }
+              )}
             </Route>
 
-            <Route
-              exact
-              path="/home"
-            >
-                <SearchHome />
+            <Route exact path="/home">
+              <SearchHome />
             </Route>
-            <Route exact path="/search"> 
+            <Route exact path="/search">
               <SearchResults />
             </Route>
-            <Route exact path="/plant-details"> 
+            <Route exact path="/plant-details">
               <PlantDetailsPage />
             </Route>
-            <Route exact path="/add-plant"> 
+            <Route exact path="/add-plant">
               <AddPlantPage />
             </Route>
-            <Route exact path ='/user-plant-details'>
+            <Route exact path="/user-plant-details">
               <UserPlantDetailsPage />
             </Route>
-            <Route exact path = '/edit-plant'>
+            <Route exact path="/edit-plant">
               <EditPlantPage />
             </Route>
-            <Route exact path = '/cloudinary'>
+            <Route exact path="/cloudinary">
               <CloudinaryUploadWidget />
+            </Route>
+            <Route exact path='/tech'>
+              <TechPage />
             </Route>
 
             {/* If none of the other routes matched, we will show a 404. */}
