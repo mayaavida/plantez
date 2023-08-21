@@ -49,22 +49,30 @@ function UserPage() {
           display="flex"
           flexWrap="wrap"
           gap={3}
-          marginLeft={3}
           padding={2}
           justifyContent="space-evenly"
-          sx={{ border: 0.5, borderRadius: 1 }}
         >
           {userPlants.map((plant) => (
-            <Card key={plant.nickname}>
-              <CardContent>
+            <Card key={plant.nickname} sx={{boxShadow: 2}}>
+              <CardContent sx={{paddingBottom:0, textAlign:'center' }}>
                 <Typography component="h5" variant="h5">
                   "{plant.nickname}"
                 </Typography>
               </CardContent>
+              <CardActions sx={{alignItems:'center'}}>
+                <Button
+                  onClick={() => getPlantDetails(plant.plant_api_id, plant.id)}
+                  color="secondary"
+                  variant="text"
+                  sx={{width:4, margin:'auto', padding:0}}
+                >
+                  Details
+                </Button>
+              </CardActions>
               {plant.image_url ? (
                 <CardMedia
                   component="img"
-                  height="150"
+                  height="175"
                   src={plant.image_url}
                   alt={"Image of a household plant"}
                 ></CardMedia>
@@ -73,14 +81,6 @@ function UserPage() {
                   No image available
                 </Typography>
               )}
-              <CardActions>
-                <Button
-                  onClick={() => getPlantDetails(plant.plant_api_id, plant.id)}
-                  color="secondary"
-                >
-                  Details
-                </Button>
-              </CardActions>
             </Card>
           ))}
         </Box>
@@ -92,11 +92,13 @@ function UserPage() {
           gap={3}
           marginLeft={3}
           marginRight={3}
+          marginTop={2}
           padding={2}
-          minWidth={250}
-          sx={{ border: 0.5, borderRadius: 1 }}
+          minWidth={275}
+          alignItems='center'
+          sx={{ boxShadow: 2 }}
         >
-           <Typography component="div" variant="h4">
+           <Typography component="div" variant="h4" sx={{textAlign: 'center'}}>
             Household Summary
           </Typography>
           <Typography component="div" variant="h5">

@@ -53,6 +53,7 @@ function RegisterForm() {
           label="First Name:"
           value={firstName}
           onChange={(event) => setFirstName(event.target.value)}
+          color="secondary"
           required
           sx={{ margin: 1 }}
         />
@@ -61,6 +62,7 @@ function RegisterForm() {
           label="Last Name:"
           value={lastName}
           onChange={(event) => setLastName(event.target.value)}
+          color="secondary"
           required
           sx={{ margin: 1 }}
         />
@@ -70,6 +72,7 @@ function RegisterForm() {
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           required
+          color="secondary"
           sx={{ margin: 1 }}
         />
         <TextField
@@ -78,6 +81,7 @@ function RegisterForm() {
           label="Password:"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
+          color="secondary"
           required
           sx={{ margin: 1 }}
         />
@@ -94,8 +98,9 @@ function RegisterForm() {
           variant="contained"
           onClick={() => history.push("/login")}
           sx={{ margin: 1, marginTop: 0 }}
+          color="secondary"
         >
-          Already have an account? Login
+          Have an account? Login
         </Button>
       </CardActions>
     </Card>

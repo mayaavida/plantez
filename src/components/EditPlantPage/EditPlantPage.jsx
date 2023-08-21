@@ -13,13 +13,14 @@ import {
 } from "@mui/material";
 
 function EditPlantPage() {
-  const { nickname, current_location, last_watered_date, notes, id, user_id } =
+  const { nickname, current_location, last_watered_date, notes, id, user_id, watering_interval } =
     useSelector((store) => store.userPlantDetails);
   const history = useHistory();
   const dispatch = useDispatch();
   const [newNickname, setNewNickname] = useState(nickname);
   const [newLocation, setNewLocation] = useState(current_location);
   const [newWateredDate, setNewWateredDate] = useState(last_watered_date);
+  const [newWateringInterval, setNewWateringInterval] = useState(watering_interval);
   const [newNotes, setNewNotes] = useState(notes);
 
   const updatePlant = (event) => {
@@ -28,6 +29,7 @@ function EditPlantPage() {
         newNickname,
         newLocation,
         newWateredDate, 
+        newWateringInterval,
         newNotes
     })
 
@@ -53,6 +55,7 @@ function EditPlantPage() {
             nickname: newNickname,
             location: newLocation,
             wateredDate: newWateredDate,
+            wateringInterval: newWateringInterval,
             notes: newNotes
         })
       })
@@ -60,7 +63,7 @@ function EditPlantPage() {
           getUserPlants();
         })
         .catch((error) => {
-          console.log("Error deleting plant: ", error);
+          console.log("Error updating plant: ", error);
         });
   
       history.push("/user");
@@ -110,7 +113,14 @@ function EditPlantPage() {
           type="date"
           defaultValue={newWateredDate}
           onChange={(event) => setNewWateredDate(event.target.value)}
-          helperText="Last Watered Date"
+          helperText="Last Watered Date:"
+        />
+          <TextField
+          variant="outlined"
+          type="number"
+          defaultValue={newWateringInterval}
+          onChange={(event) => setNewWateringInterval(event.target.value)}
+          helperText="Watering interval (days)"
         />
         <TextField
           variant="outlined"

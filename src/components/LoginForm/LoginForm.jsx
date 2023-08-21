@@ -51,6 +51,7 @@ function LoginForm() {
           variant="outlined"
           label="Email:"
           value={email}
+          color="secondary"
           onChange={(event) => setEmail(event.target.value)}
           required
           sx={{ margin: 1 }}
@@ -59,6 +60,7 @@ function LoginForm() {
           variant="outlined"
           type="password"
           label="Password:"
+          color="secondary"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           required
@@ -76,9 +78,10 @@ function LoginForm() {
         <Button
           variant="contained"
           onClick={() => history.push("/registration")}
+          color="secondary"
           sx={{ margin: 1, marginTop: 0 }}
         >
-          New User? Register
+          New user? Register
         </Button>
       </CardActions>
     </Card>

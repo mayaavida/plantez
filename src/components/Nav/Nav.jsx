@@ -30,7 +30,7 @@ function Nav() {
             bgcolor="secondary"
             onClick={()=>history.push('/login')}
           >
-            Login or Register
+            Login / Register
           </Button>
         )}
         {user.id && (

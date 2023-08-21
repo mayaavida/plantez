@@ -1,12 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
 import { Typography, Box, Button } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
+import { Dialog, DialogActions, DialogTitle } from "@mui/material";
 
 function UserPlantDetailsPage() {
   const history = useHistory();
   const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  //Details from plant API for a specific plant
   const {
     common_name,
     scientific_name,
@@ -19,9 +31,19 @@ function UserPlantDetailsPage() {
     default_image,
   } = useSelector((store) => store.plantDetails);
 
-  const { nickname, current_location, last_watered_date, notes, id, user_id } =
-    useSelector((store) => store.userPlantDetails);
+  //Details from the database for a specific plant
+  const {
+    nickname,
+    current_location,
+    last_watered_date,
+    watering_interval,
+    next_watering_date,
+    notes,
+    id,
+    user_id,
+  } = useSelector((store) => store.userPlantDetails);
 
+  //Function to combine array into one string, used in return below
   const combineArray = (arr) => {
     if (arr.length > 1) {
       return arr.join(", ");
@@ -30,6 +52,7 @@ function UserPlantDetailsPage() {
     }
   };
 
+  // function to fetch a user's plants
   const getUserPlants = () => {
     fetch(`/api/plant/user/${user_id}`)
       .then((response) => response.json())
@@ -43,8 +66,8 @@ function UserPlantDetailsPage() {
       });
   };
 
+  // function to remove a specific plant from a user's household
   const removePlant = (id) => {
-
     fetch(`/api/plant/delete/${id}`, {
       method: "DELETE",
       headers: {
@@ -71,7 +94,7 @@ function UserPlantDetailsPage() {
         justifyContent="flex-start"
         alignItems="flex-start"
       >
-        <Button onClick={history.goBack} variant="outlined" color="secondary" sx={{width: 200}}>
+        <Button onClick={history.goBack} variant="outlined" color="secondary">
           Back
         </Button>
         <Box
@@ -108,6 +131,10 @@ function UserPlantDetailsPage() {
         </Typography>
         <Typography variant="p">{last_watered_date}</Typography>
         <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+          Next Watering Date:
+        </Typography>
+        <Typography variant="p">{next_watering_date}</Typography>
+        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
           Location:
         </Typography>
         <Typography variant="p">{current_location}</Typography>
@@ -127,9 +154,33 @@ function UserPlantDetailsPage() {
           Notes:
         </Typography>
         <Typography variant="p">{notes}</Typography>
-        <Button variant="contained" onClick={() => removePlant(id)}>
-          Remove from Household
-        </Button>
+
+        <Box>
+          <Button variant="contained" sx={{ marginTop: 2 }} onClick={handleClickOpen}>
+            Remove from Household
+          </Button>
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {
+                "Are you sure you want to delete this plant from your household?"
+              }
+            </DialogTitle>
+            <DialogActions>
+              <Button
+                variant="contained"
+                onClick={() => removePlant(id)}
+              >
+                Yes
+              </Button>
+              <Button onClick={handleClose} variant="contained" color="secondary">No</Button>
+            </DialogActions>
+          </Dialog>
+        </Box>
       </Box>
     </Box>
   );

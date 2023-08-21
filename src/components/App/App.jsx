@@ -24,6 +24,7 @@ import SearchHome from '../SearchHome/SearchHome';
 import AddPlantPage from '../AddPlantPage/AddPlantPage';
 import UserPlantDetailsPage from '../UserPlantDetailsPage/UserPlantDetailsPage';
 import EditPlantPage from '../EditPlantPage/EditPlantPage';
+import CloudinaryUploadWidget from '../CloudinaryUploadWidget/CloudinaryUploadWidget';
 
 import './App.css';
 
@@ -118,6 +119,9 @@ function App() {
             </Route>
             <Route exact path = '/edit-plant'>
               <EditPlantPage />
+            </Route>
+            <Route exact path = '/cloudinary'>
+              <CloudinaryUploadWidget />
             </Route>
 
             {/* If none of the other routes matched, we will show a 404. */}
