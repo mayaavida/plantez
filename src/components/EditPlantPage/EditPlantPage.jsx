@@ -55,7 +55,7 @@ function EditPlantPage() {
             nickname: newNickname,
             location: newLocation,
             wateredDate: newWateredDate,
-            wateringInterval: newWateringInterval,
+            wateringInterval: Number(newWateringInterval),
             notes: newNotes
         })
       })

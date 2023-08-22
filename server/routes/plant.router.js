@@ -16,7 +16,16 @@ router.post("/add", (req, res) => {
     imageUrl,
   } = req.body;
 
-  const queryText = `INSERT INTO "plants"("nickname", "plant_api_id", "user_id", "last_watered_date", "watering_interval", "next_watering_date", "current_location", "notes", "image_url") VALUES ($1, $2, $3, $4, $5, $4::date + $5 * INTERVAL '1 day', $6, $7, $8);`;
+  //Add calculation here // Issue at the moment is the result.getDate() piece is returning the day before, I am having to add 1 to the watering interval
+  function nextWateringDate (lastWateredDate, wateringInterval) {
+    let result = new Date(lastWateredDate);
+    console.log('This is result.getDate();', result.getDate());
+    console.log('This is the watering interval: ', wateringInterval);
+    result.setDate(result.getDate() + (wateringInterval +1));
+    return result;
+  }
+
+  const queryText = `INSERT INTO "plants"("nickname", "plant_api_id", "user_id", "last_watered_date", "watering_interval", "next_watering_date", "current_location", "notes", "image_url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);`;
 
   pool
     .query(queryText, [
@@ -25,6 +34,7 @@ router.post("/add", (req, res) => {
       userId,
       lastWateredDate,
       wateringInterval,
+      nextWateringDate(lastWateredDate, wateringInterval),
       currentLocation,
       notes,
       imageUrl,
@@ -70,13 +80,22 @@ router.delete("/delete/:id", (req, res) => {
 router.put("/update/:id", (req, res) => {
   const plantId = req.params.id;
   const { nickname, location, wateredDate, wateringInterval, notes } = req.body;
-  const queryText = `UPDATE "plants" SET "nickname" = $1, "current_location" = $2, "last_watered_date" = $3, "watering_interval" = $4, "next_watering_date" = $3::date + $4 * INTERVAL '1 day', "notes" = $5 WHERE "id" = $6;`;
+
+   //Add calculation here // Issue at the moment is the result.getDate() piece is returning the day before, I am having to add 1 to the watering interval
+   function nextWateringDate (wateredDate, wateringInterval) {
+    let result = new Date(wateredDate);
+    result.setDate(result.getDate() + (wateringInterval +1));
+    return result;
+  }
+
+  const queryText = `UPDATE "plants" SET "nickname" = $1, "current_location" = $2, "last_watered_date" = $3, "watering_interval" = $4, "next_watering_date" = $5, "notes" = $6 WHERE "id" = $7;`;
   pool
     .query(queryText, [
       nickname,
       location,
       wateredDate,
       wateringInterval,
+      nextWateringDate(wateredDate, wateringInterval),
       notes,
       plantId,
     ])
