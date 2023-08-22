@@ -9,6 +9,8 @@ import {
   CardMedia,
   CardActions,
   Button,
+  List,
+  ListItem,
 } from "@mui/material";
 import plant from "../../images/plant.png";
 
@@ -17,9 +19,21 @@ function UserPage() {
   const history = useHistory();
   const user = useSelector((store) => store.user);
   const userPlants = useSelector((store) => store.userPlants);
-  
-  const userPlantWateringDates = userPlants.map(plant => plant.next_watering_date);
-  console.log('next watering dates: ', userPlantWateringDates.sort());
+
+  //List of user plants with a next_watering_date
+  const plantsWithWaterDate = userPlants.filter(
+    (plant) => plant.next_watering_date !== null
+  );
+
+  //Sorting the list by next_watering_date
+  plantsWithWaterDate.sort(function (a, b) {
+    let keyA = new Date(a.next_watering_date);
+    let keyB = new Date(b.next_watering_date);
+    // Compare the 2 dates
+    if (keyA < keyB) return -1;
+    if (keyA > keyB) return 1;
+    return 0;
+  });
 
   const getPlantDetails = async (plantApi, plantId) => {
     //Getting details from API for specific plant
@@ -43,8 +57,8 @@ function UserPage() {
     <Box>
       <Box sx={{ width: 400, margin: "auto", padding: 4 }}>
         <Typography component="div" variant="h3">
-          Hello, {user.first_name}! 
-          <img src={plant} alt='icon of PlantEZ plant' height={50}/>
+          Hello, {user.first_name}!
+          <img src={plant} alt="icon of PlantEZ plant" height={50} />
         </Typography>
       </Box>
       <Box display="flex">
@@ -56,18 +70,18 @@ function UserPage() {
           justifyContent="space-evenly"
         >
           {userPlants.map((plant) => (
-            <Card key={plant.nickname} sx={{boxShadow: 2}}>
-              <CardContent sx={{paddingBottom:0, textAlign:'center' }}>
+            <Card key={plant.nickname} sx={{ boxShadow: 2 }}>
+              <CardContent sx={{ paddingBottom: 0, textAlign: "center" }}>
                 <Typography component="h5" variant="h5">
                   "{plant.nickname}"
                 </Typography>
               </CardContent>
-              <CardActions sx={{alignItems:'center'}}>
+              <CardActions sx={{ alignItems: "center" }}>
                 <Button
                   onClick={() => getPlantDetails(plant.plant_api_id, plant.id)}
                   color="secondary"
                   variant="text"
-                  sx={{width:4, margin:'auto', padding:0}}
+                  sx={{ width: 4, margin: "auto", padding: 0 }}
                 >
                   Details
                 </Button>
@@ -98,15 +112,25 @@ function UserPage() {
           marginTop={2}
           padding={2}
           minWidth={275}
-          alignItems='center'
+          alignItems="center"
           sx={{ boxShadow: 2 }}
         >
-           <Typography component="div" variant="h4" sx={{textAlign: 'center'}}>
+          <Typography component="div" variant="h4" sx={{ textAlign: "center" }}>
             Household Summary
           </Typography>
-          <Typography component="div" variant="h5">
+          <Typography component="div" variant="h6" >
             Total Plants: {userPlants.length}
           </Typography>
+          <Typography component="div" variant="h5" sx={{ textAlign: "center" }}>
+            Upcoming Watering Dates:
+          </Typography>
+          <List>
+          {plantsWithWaterDate.map((plant) => (
+              <ListItem key={plant.id} id={plant.id} button divider sx={{textAlign: 'center'}} variant='h6'>
+                {plant.nickname}: {plant.next_watering_date}
+              </ListItem>
+            ))}
+          </List>
           <Link to="/home">
             <Button variant="contained" color="secondary">
               Add more plants

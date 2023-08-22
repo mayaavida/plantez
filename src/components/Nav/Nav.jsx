@@ -3,13 +3,9 @@ import { Link, useHistory } from "react-router-dom";
 import LogOutButton from "../LogOutButton/LogOutButton";
 import { useSelector } from "react-redux";
 import {
-  Box,
   AppBar,
-  Typography,
   Button,
-  IconButton,
   Toolbar,
-  Input,
 } from "@mui/material";
 import planteez from "../../images/planteez.png";
 
