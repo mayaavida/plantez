@@ -11,7 +11,10 @@ import {
   Button,
   List,
   ListItem,
+  Tooltip,
+  IconButton,
 } from "@mui/material";
+import WaterDropIcon from "@mui/icons-material/WaterDrop";
 import plant from "../../images/plant.png";
 
 function UserPage() {
@@ -35,6 +38,7 @@ function UserPage() {
     return 0;
   });
 
+  //Handling click of details button for each plant
   const getPlantDetails = async (plantApi, plantId) => {
     //Getting details from API for specific plant
     const apiResponse = await fetch(`/api/species-details/${plantApi}`);
@@ -53,6 +57,43 @@ function UserPage() {
     history.push("/user-plant-details");
   };
 
+  //GET request for user plants
+  const getUserPlants = () => {
+    fetch(`/api/plant/user/${user.id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Fetched user plants: ", data);
+        dispatch({ type: "SET_USER_PLANTS", payload: data });
+      })
+      .catch((err) => {
+        alert("error getting plants");
+        console.log(err);
+      });
+  };
+
+  //Handle click on watering icon
+  const updateWateredDate = (idToUpdate, plantWateringInterval) => {
+    let currentDate = new Date().toJSON().slice(0, 10);
+
+    //PUT request to update watering date
+    fetch(`/api/plant/update-watering/${idToUpdate}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        wateredDate: currentDate,
+        wateringInterval: plantWateringInterval,
+      }),
+    })
+      .then((response) => {
+        getUserPlants();
+      })
+      .catch((error) => {
+        console.log("Error updating plant: ", error);
+      });
+  };
+
   return (
     <Box>
       <Box sx={{ width: 400, margin: "auto", padding: 4 }}>
@@ -61,7 +102,7 @@ function UserPage() {
           <img src={plant} alt="icon of PlantEZ plant" height={50} />
         </Typography>
       </Box>
-      <Box display="flex">
+      <Box display="flex" justifyContent='space-around'>
         <Box
           display="flex"
           flexWrap="wrap"
@@ -70,7 +111,17 @@ function UserPage() {
           justifyContent="space-evenly"
         >
           {userPlants.map((plant) => (
-            <Card key={plant.nickname} sx={{ boxShadow: 2 }}>
+            <Card
+              key={plant.nickname}
+              sx={{
+                boxShadow: 2,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "flex-end",
+                gap: 0,
+                height: 315,
+              }}
+            >
               <CardContent sx={{ paddingBottom: 0, textAlign: "center" }}>
                 <Typography component="h5" variant="h5">
                   "{plant.nickname}"
@@ -89,7 +140,7 @@ function UserPage() {
               {plant.image_url ? (
                 <CardMedia
                   component="img"
-                  height="175"
+                  height="220"
                   src={plant.image_url}
                   alt={"Image of a household plant"}
                 ></CardMedia>
@@ -105,37 +156,59 @@ function UserPage() {
           display="flex"
           flexWrap="wrap"
           flexDirection="column"
-          flexGrow={2}
+          borderRadius={1}
           gap={3}
           marginLeft={3}
           marginRight={3}
           marginTop={2}
           padding={2}
-          minWidth={275}
+          minWidth={325}
           alignItems="center"
           sx={{ boxShadow: 2 }}
         >
           <Typography component="div" variant="h4" sx={{ textAlign: "center" }}>
             Household Summary
           </Typography>
-          <Typography component="div" variant="h6" >
+          <Typography component="div" variant="h6">
             Total Plants: {userPlants.length}
           </Typography>
-          <Typography component="div" variant="h5" sx={{ textAlign: "center" }}>
-            Upcoming Watering Dates:
-          </Typography>
-          <List>
-          {plantsWithWaterDate.map((plant) => (
-              <ListItem key={plant.id} id={plant.id} button divider sx={{textAlign: 'center'}} variant='h6'>
-                {plant.nickname}: {plant.next_watering_date}
-              </ListItem>
-            ))}
-          </List>
           <Link to="/home">
-            <Button variant="contained" color="secondary">
+            <Button variant="contained" color="primary">
               Add more plants
             </Button>
           </Link>
+          {plantsWithWaterDate.length > 0 && (
+            <>
+              <Typography
+                component="div"
+                variant="h5"
+                sx={{ textAlign: "center", marginTop: 2 }}
+              >
+                Upcoming Watering Dates:
+              </Typography>
+              <List sx={{ padding: 0 }}>
+                {plantsWithWaterDate.map((plant) => (
+                  <ListItem
+                    key={plant.id}
+                    divider
+                    sx={{ margin: 1, padding: 0 }}
+                    variant="h6"
+                  >
+                    {plant.nickname}: {plant.next_watering_date}
+                    <Tooltip title="Record Watering" placement="right" arrow>
+                      <IconButton
+                        onClick={() =>
+                          updateWateredDate(plant.id, plant.watering_interval)
+                        }
+                      >
+                        <WaterDropIcon sx={{ color: "#75c9c8" }} />
+                      </IconButton>
+                    </Tooltip>
+                  </ListItem>
+                ))}
+              </List>
+            </>
+          )}
         </Box>
       </Box>
     </Box>

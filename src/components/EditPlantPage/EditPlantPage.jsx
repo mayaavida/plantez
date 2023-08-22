@@ -13,61 +13,68 @@ import {
 } from "@mui/material";
 
 function EditPlantPage() {
-  const { nickname, current_location, last_watered_date, notes, id, user_id, watering_interval } =
-    useSelector((store) => store.userPlantDetails);
+  const {
+    nickname,
+    current_location,
+    last_watered_date,
+    notes,
+    id,
+    user_id,
+    watering_interval,
+  } = useSelector((store) => store.userPlantDetails);
   const history = useHistory();
   const dispatch = useDispatch();
   const [newNickname, setNewNickname] = useState(nickname);
   const [newLocation, setNewLocation] = useState(current_location);
   const [newWateredDate, setNewWateredDate] = useState(last_watered_date);
-  const [newWateringInterval, setNewWateringInterval] = useState(watering_interval);
+  const [newWateringInterval, setNewWateringInterval] =
+    useState(watering_interval);
   const [newNotes, setNewNotes] = useState(notes);
+
+  const getUserPlants = () => {
+    fetch(`/api/plant/user/${user_id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Fetched user plants: ", data);
+        dispatch({ type: "SET_USER_PLANTS", payload: data });
+      })
+      .catch((err) => {
+        alert("error getting plants");
+        console.log(err);
+      });
+  };
 
   const updatePlant = (event) => {
     event.preventDefault();
-    console.log('New details: ', {
-        newNickname,
-        newLocation,
-        newWateredDate, 
-        newWateringInterval,
-        newNotes
-    })
+    console.log("New details: ", {
+      newNickname,
+      newLocation,
+      newWateredDate,
+      newWateringInterval,
+      newNotes,
+    });
 
-    const getUserPlants = () => {
-        fetch(`/api/plant/user/${user_id}`)
-          .then((response) => response.json())
-          .then((data) => {
-            console.log("Fetched user plants: ", data);
-            dispatch({ type: "SET_USER_PLANTS", payload: data });
-          })
-          .catch((err) => {
-            alert("error getting plants");
-            console.log(err);
-          });
-      };
-  
-      fetch(`/api/plant/update/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            nickname: newNickname,
-            location: newLocation,
-            wateredDate: newWateredDate,
-            wateringInterval: Number(newWateringInterval),
-            notes: newNotes
-        })
+    fetch(`/api/plant/update/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        nickname: newNickname,
+        location: newLocation,
+        wateredDate: newWateredDate,
+        wateringInterval: Number(newWateringInterval),
+        notes: newNotes,
+      }),
+    })
+      .then((response) => {
+        getUserPlants();
       })
-        .then((response) => {
-          getUserPlants();
-        })
-        .catch((error) => {
-          console.log("Error updating plant: ", error);
-        });
-  
-      history.push("/user");
-    
+      .catch((error) => {
+        console.log("Error updating plant: ", error);
+      });
+
+    history.push("/user");
   };
 
   return (
@@ -88,7 +95,7 @@ function EditPlantPage() {
           flexDirection: "column",
           gap: 2,
           padding: 3,
-          margin: 'auto',
+          margin: "auto",
           width: 500,
           justifyContent: "center",
         }}
@@ -115,7 +122,7 @@ function EditPlantPage() {
           onChange={(event) => setNewWateredDate(event.target.value)}
           helperText="Last Watered Date:"
         />
-          <TextField
+        <TextField
           variant="outlined"
           type="number"
           defaultValue={newWateringInterval}

@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
-import { Typography, Box, Button } from "@mui/material";
+import {
+  Typography,
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import { Dialog, DialogActions, DialogTitle } from "@mui/material";
 
 function UserPlantDetailsPage() {
   const history = useHistory();
@@ -85,105 +91,128 @@ function UserPlantDetailsPage() {
   };
 
   return (
-    <Box display="flex">
-      <Box
-        display="flex"
-        flexDirection="column"
-        gap={2}
-        sx={{ margin: 3 }}
-        justifyContent="flex-start"
-        alignItems="flex-start"
-      >
+    <Box>
+      <Box display="flex" justifyContent='space-between' padding={2}>
         <Button onClick={history.goBack} variant="outlined" color="secondary">
           Back
         </Button>
-        <Box
-          component="img"
-          alt={common_name}
-          src={default_image ? default_image.small_url : "Image unavailable"}
-        />
-        <Typography component="div" variant="h5">
-          {common_name.toUpperCase()}
-        </Typography>
-        <Typography component="div" variant="h6">
-          Scientific Name(s):
-        </Typography>
-        <Typography variant="p" sx={{ fontStyle: "italic" }}>
-          {combineArray(scientific_name)}
-        </Typography>
-      </Box>
-      <Box
-        flexGrow={2}
-        sx={{ margin: 3 }}
-        display="flex"
-        flexDirection="column"
-        gap={1}
-        justifyContent="flex-start"
-        alignItems="flex-start"
-      >
+        <Typography variant="h3">"{nickname}"</Typography>
+
         <Link to="/edit-plant">
           <EditIcon /> Edit Plant
         </Link>
 
-        <Typography variant="h3">"{nickname}"</Typography>
-        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-          Last Watered:
-        </Typography>
-        <Typography variant="p">{last_watered_date}</Typography>
-        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-          Watering Interval:
-        </Typography>
-        <Typography variant="p">{watering_interval}</Typography>
-        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-          Next Watering Date:
-        </Typography>
-        <Typography variant="p">{next_watering_date}</Typography>
-        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-          Location:
-        </Typography>
-        <Typography variant="p">{current_location}</Typography>
-        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-          Sunlight:
-        </Typography>
-        <Typography variant="p">{combineArray(sunlight)}</Typography>
-        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-          Watering requirements:
-        </Typography>
-        <Typography variant="p">{watering}</Typography>
-        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-          Poisonous to pets?
-        </Typography>
-        <Typography variant="p">{poisonous_to_pets ? "Yes" : "No"}</Typography>
-        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-          Notes:
-        </Typography>
-        <Typography variant="p">{notes}</Typography>
+      </Box>
+      <Box display="flex" gap={3}>
+        <Box
+          display="flex"
+          flexDirection="column"
+          gap={2}
+          sx={{ margin: 3 }}
+          justifyContent="flex-start"
+          alignItems="flex-start"
+        >
+          <Box
+            component="img"
+            alt={common_name}
+            src={default_image ? default_image.small_url : "Image unavailable"}
+          />
+          <Typography component="div" variant="h5">
+            {common_name.toUpperCase()}
+          </Typography>
+          <Typography component="div" variant="h6">
+            Scientific Name(s):
+          </Typography>
+          <Typography variant="p" sx={{ fontStyle: "italic" }}>
+            {combineArray(scientific_name)}
+          </Typography>
+        </Box>
+        <Box
+          sx={{ margin: 3 }}
+          display="flex"
+          flexDirection="column"
+          gap={1}
+          justifyContent="flex-start"
+          alignItems="flex-start"
+        >
+          <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+            Sunlight Requirements:
+          </Typography>
+          <Typography variant="p">{combineArray(sunlight)}</Typography>
+          <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+            Location:
+          </Typography>
+          <Typography variant="p">{current_location}</Typography>
 
-        <Box>
-          <Button variant="contained" sx={{ marginTop: 2 }} onClick={handleClickOpen}>
-            Remove from Household
-          </Button>
-          <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">
-              {
-                "Are you sure you want to delete this plant from your household?"
-              }
-            </DialogTitle>
-            <DialogActions>
-              <Button
-                variant="contained"
-                onClick={() => removePlant(id)}
-              >
-                Yes
-              </Button>
-              <Button onClick={handleClose} variant="contained" color="secondary">No</Button>
-            </DialogActions>
-          </Dialog>
+          <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+            Poisonous to pets?
+          </Typography>
+          <Typography variant="p">
+            {poisonous_to_pets ? "Yes" : "No"}
+          </Typography>
+          <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+            Notes:
+          </Typography>
+          <Typography variant="p">{notes}</Typography>
+
+          <Box>
+            <Button
+              variant="contained"
+              sx={{ marginTop: 2 }}
+              onClick={handleClickOpen}
+            >
+              Remove from Household
+            </Button>
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">
+                {
+                  "Are you sure you want to delete this plant from your household?"
+                }
+              </DialogTitle>
+              <DialogActions>
+                <Button variant="contained" onClick={() => removePlant(id)}>
+                  Yes
+                </Button>
+                <Button
+                  onClick={handleClose}
+                  variant="contained"
+                  color="secondary"
+                >
+                  No
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </Box>
+        </Box>
+        <Box
+          display="flex"
+          flexDirection="column"
+          gap={2}
+          sx={{ margin: 3 }}
+          justifyContent="flex-start"
+          alignItems="flex-start"
+        >
+          <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+            Watering requirements:
+          </Typography>
+          <Typography variant="p">{watering}</Typography>
+          <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+            Last Watered:
+          </Typography>
+          <Typography variant="p">{last_watered_date}</Typography>
+          <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+            Watering Interval:
+          </Typography>
+          <Typography variant="p">{watering_interval}</Typography>
+          <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+            Next Watering Date:
+          </Typography>
+          <Typography variant="p">{next_watering_date}</Typography>
         </Box>
       </Box>
     </Box>

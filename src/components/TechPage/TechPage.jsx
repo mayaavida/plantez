@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
+
 import { Box, Typography, List, ListItem } from "@mui/material";
 import plant from "../../images/plant.png";
 
 function TechPage() {
+
+  useEffect(() => {
+      window.scrollTo(0, 0);
+  }, []);
+
   return (
-    <Box sx={{ padding: 5, margin: 5, textAlign: "center" }}>
+    <Box sx={{ padding: 5, margin: 5, marginTop: 2, textAlign: "center" }}>
       <Typography variant="h5" component="div">
         PlantEZ uses the following technologies:
       </Typography>
@@ -27,7 +33,7 @@ function TechPage() {
       <Typography variant="h6" component='div' sx={{maxWidth: 500, margin: 'auto'}}>
         Thank you to the fantastic students and instructors at Prime Academy. I am so grateful for your support and guidance!
       </Typography>
-      <Box component="img" src={plant} height={75} sx={{margin:3}}></Box>
+      <Box component="img" src={plant} height={65} sx={{margin:2}}></Box>
     </Box>
   );
 }

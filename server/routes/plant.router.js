@@ -17,11 +17,11 @@ router.post("/add", (req, res) => {
   } = req.body;
 
   //Add calculation here // Issue at the moment is the result.getDate() piece is returning the day before, I am having to add 1 to the watering interval
-  function nextWateringDate (lastWateredDate, wateringInterval) {
+  function nextWateringDate(lastWateredDate, wateringInterval) {
     let result = new Date(lastWateredDate);
-    console.log('This is result.getDate();', result.getDate());
-    console.log('This is the watering interval: ', wateringInterval);
-    result.setDate(result.getDate() + (wateringInterval +1));
+    console.log("This is result.getDate();", result.getDate());
+    console.log("This is the watering interval: ", wateringInterval);
+    result.setDate(result.getDate() + (wateringInterval + 1));
     return result;
   }
 
@@ -76,15 +76,15 @@ router.delete("/delete/:id", (req, res) => {
     });
 });
 
-//PUT route
+//PUT route for edit plant page
 router.put("/update/:id", (req, res) => {
   const plantId = req.params.id;
   const { nickname, location, wateredDate, wateringInterval, notes } = req.body;
 
-   //Add calculation here // Issue at the moment is the result.getDate() piece is returning the day before, I am having to add 1 to the watering interval
-   function nextWateringDate (wateredDate, wateringInterval) {
+  //Add calculation here // Issue at the moment is the result.getDate() piece is returning the day before, I am having to add 1 to the watering interval
+  function nextWateringDate(wateredDate, wateringInterval) {
     let result = new Date(wateredDate);
-    result.setDate(result.getDate() + (wateringInterval +1));
+    result.setDate(result.getDate() + (wateringInterval + 1));
     return result;
   }
 
@@ -97,6 +97,35 @@ router.put("/update/:id", (req, res) => {
       wateringInterval,
       nextWateringDate(wateredDate, wateringInterval),
       notes,
+      plantId,
+    ])
+    .then(() => res.sendStatus(200))
+    .catch((err) => {
+      console.log("Error updating plant: ", err);
+      res.sendStatus(500);
+    });
+});
+
+//PUT route for recording watering date
+
+router.put("/update-watering/:id", (req, res) => {
+
+  const plantId = req.params.id;
+  const { wateredDate, wateringInterval } = req.body;
+
+  //Add calculation here // Issue at the moment is the result.getDate() piece is returning the day before, I am having to add 1 to the watering interval
+  function nextWateringDate(wateredDate, wateringInterval) {
+    let result = new Date(wateredDate);
+    result.setDate(result.getDate() + (wateringInterval + 1));
+    return result;
+  }
+
+  const queryText = `UPDATE "plants" SET "last_watered_date" = $1, "watering_interval" = $2, "next_watering_date" = $3 WHERE "id" = $4;`;
+  pool
+    .query(queryText, [
+      wateredDate,
+      wateringInterval,
+      nextWateringDate(wateredDate, wateringInterval),
       plantId,
     ])
     .then(() => res.sendStatus(200))
