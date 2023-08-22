@@ -17,6 +17,7 @@ function AddPlantPage() {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  //Information for adding a new plant
   const newPlant = {
     userId: user.id,
     plantId: plantToAdd.id,
@@ -28,11 +29,11 @@ function AddPlantPage() {
     notes,
   };
 
+  //Function to get a specific user's plants
   const getUserPlants = () => {
     fetch(`/api/plant/user/${user.id}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log("User plants: ", data);
         dispatch({ type: "SET_USER_PLANTS", payload: data });
       })
       .catch((err) => {
@@ -41,8 +42,11 @@ function AddPlantPage() {
       });
   };
 
+  //POST request with new plant data
   const addPlantToHousehold = (event) => {
     event.preventDefault();
+
+    console.log('New plant data being added:', newPlant);
 
     fetch("/api/plant/add", {
       method: "POST",

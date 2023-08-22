@@ -51,7 +51,7 @@ router.get("/user/:id", (req, res) => {
   const userId = req.params.id;
   pool
     .query(
-      `SELECT id, nickname, TO_CHAR(last_watered_date, 'dd/mm/yyyy') AS last_watered_date, watering_interval, TO_CHAR(next_watering_date, 'dd/mm/yyyy') AS next_watering_date, current_location, notes, image_url, plant_api_id, user_id FROM "plants" WHERE "user_id" = $1;`,
+      `SELECT id, nickname, TO_CHAR(last_watered_date, 'yyyy-mm-dd') AS last_watered_date, watering_interval, TO_CHAR(next_watering_date, 'yyyy-mm-dd') AS next_watering_date, current_location, notes, image_url, plant_api_id, user_id FROM "plants" WHERE "user_id" = $1;`,
       [userId]
     )
     .then((result) => {

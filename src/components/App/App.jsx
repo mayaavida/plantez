@@ -26,7 +26,6 @@ import UserPlantDetailsPage from "../UserPlantDetailsPage/UserPlantDetailsPage";
 import EditPlantPage from "../EditPlantPage/EditPlantPage";
 import TechPage from "../TechPage/TechPage";
 
-import CloudinaryUploadWidget from "../CloudinaryUploadWidget/CloudinaryUploadWidget";
 
 import "./App.css";
 
@@ -112,9 +111,6 @@ function App() {
             </Route>
             <Route exact path="/edit-plant">
               <EditPlantPage />
-            </Route>
-            <Route exact path="/cloudinary">
-              <CloudinaryUploadWidget />
             </Route>
             <Route exact path='/tech'>
               <TechPage />

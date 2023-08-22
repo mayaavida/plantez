@@ -17,6 +17,9 @@ function UserPage() {
   const history = useHistory();
   const user = useSelector((store) => store.user);
   const userPlants = useSelector((store) => store.userPlants);
+  
+  const userPlantWateringDates = userPlants.map(plant => plant.next_watering_date);
+  console.log('next watering dates: ', userPlantWateringDates.sort());
 
   const getPlantDetails = async (plantApi, plantId) => {
     //Getting details from API for specific plant
