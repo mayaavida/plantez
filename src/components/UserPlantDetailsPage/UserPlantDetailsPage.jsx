@@ -92,8 +92,8 @@ function UserPlantDetailsPage() {
 
   return (
     <Box>
-      <Box display="flex" justifyContent='space-between' padding={2}>
-        <Button onClick={history.goBack} variant="outlined" color="secondary">
+      <Box display="flex" justifyContent='space-between' padding={2} paddingBottom={0}>
+        <Button onClick={history.goBack} variant="outlined" color="secondary" sx={{paddingLeft:2, paddingRight:2, height:37}}>
           Back
         </Button>
         <Typography variant="h3">"{nickname}"</Typography>

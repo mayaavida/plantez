@@ -1,18 +1,10 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  Button,
-  Card,
-  CardContent,
-  CardActions,
-  TextField,
-  Typography,
-  Box,
-  autocompleteClasses,
-} from "@mui/material";
+import { Button, TextField, Typography, Box } from "@mui/material";
 
 function EditPlantPage() {
+
   const {
     nickname,
     current_location,
@@ -22,8 +14,10 @@ function EditPlantPage() {
     user_id,
     watering_interval,
   } = useSelector((store) => store.userPlantDetails);
+
   const history = useHistory();
   const dispatch = useDispatch();
+
   const [newNickname, setNewNickname] = useState(nickname);
   const [newLocation, setNewLocation] = useState(current_location);
   const [newWateredDate, setNewWateredDate] = useState(last_watered_date);
@@ -31,11 +25,11 @@ function EditPlantPage() {
     useState(watering_interval);
   const [newNotes, setNewNotes] = useState(notes);
 
+  //GET route for a specific user's plants
   const getUserPlants = () => {
     fetch(`/api/plant/user/${user_id}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log("Fetched user plants: ", data);
         dispatch({ type: "SET_USER_PLANTS", payload: data });
       })
       .catch((err) => {
@@ -44,15 +38,9 @@ function EditPlantPage() {
       });
   };
 
+  //PUT route to update plant details
   const updatePlant = (event) => {
     event.preventDefault();
-    console.log("New details: ", {
-      newNickname,
-      newLocation,
-      newWateredDate,
-      newWateringInterval,
-      newNotes,
-    });
 
     fetch(`/api/plant/update/${id}`, {
       method: "PUT",

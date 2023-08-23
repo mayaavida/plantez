@@ -8,9 +8,6 @@ import {
   Box,
   TextField,
   Typography,
-  FormGroup,
-  FormControlLabel,
-  Checkbox,
 } from "@mui/material";
 
 function AddPlantPage() {
@@ -26,7 +23,6 @@ function AddPlantPage() {
   const dispatch = useDispatch();
 
 
-
   //Information for adding a new plant
   const newPlant = {
     userId: user.id,
@@ -39,7 +35,7 @@ function AddPlantPage() {
     notes,
   };
 
-  //Function to get a specific user's plants
+  //GET request to get a specific user's plants
   const getUserPlants = () => {
     fetch(`/api/plant/user/${user.id}`)
       .then((response) => response.json())
@@ -56,8 +52,6 @@ function AddPlantPage() {
   const addPlantToHousehold = (event) => {
     event.preventDefault();
 
-    console.log("New plant data being added:", newPlant);
-
     fetch("/api/plant/add", {
       method: "POST",
       body: JSON.stringify(newPlant),
@@ -69,13 +63,9 @@ function AddPlantPage() {
       .catch((error) => {
         console.log(error);
       });
+  
+      history.push("/user");
 
-    if(checked === true) {
-      history.push("/user")}
-      else if(checked === false) {
-        dispatch({ type: "SET_USER_PLANT_DETAILS", payload: newPlant });
-        history.push('/watering');
-      }
   };
 
   return (
