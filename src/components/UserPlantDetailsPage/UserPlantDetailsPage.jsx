@@ -145,7 +145,7 @@ function UserPlantDetailsPage() {
           <Typography variant="p">{current_location}</Typography>
 
           <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-            Poisonous to pets?
+            Poisonous to Pets?
           </Typography>
           <Typography variant="p">
             {poisonous_to_pets ? "Yes" : "No"}
@@ -196,9 +196,10 @@ function UserPlantDetailsPage() {
           sx={{ margin: 3 }}
           justifyContent="flex-start"
           alignItems="flex-start"
+          minWidth={350}
         >
           <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-            Watering requirements:
+            Watering Requirements:
           </Typography>
           <Typography variant="p">{watering}</Typography>
           <Typography variant="h6" sx={{ fontWeight: "bold" }}>

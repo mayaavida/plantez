@@ -4,7 +4,7 @@ const router = express.Router();
 
 //POST route
 router.post("/add", (req, res) => {
-  console.log("Request from AddPlant: ", req.body);
+
   const {
     nickname,
     plantId,
@@ -19,8 +19,6 @@ router.post("/add", (req, res) => {
 
   function nextWateringDate(lastWateredDate, wateringInterval) {
     let result = new Date(lastWateredDate);
-    console.log("This is result.getDate();", result.getDate());
-    console.log("This is the watering interval: ", wateringInterval);
     result.setDate(result.getDate() + (wateringInterval + 1));
     return result;
   }
@@ -52,7 +50,7 @@ router.get("/user/:id", (req, res) => {
   const userId = req.params.id;
   pool
     .query(
-      `SELECT id, nickname, TO_CHAR(last_watered_date, 'yyyy-mm-dd') AS last_watered_date, watering_interval, TO_CHAR(next_watering_date, 'yyyy-mm-dd') AS next_watering_date, current_location, notes, image_url, plant_api_id, user_id FROM "plants" WHERE "user_id" = $1;`,
+      `SELECT id, nickname, TO_CHAR(last_watered_date, 'yyyy-mm-dd') AS last_watered_date, watering_interval, TO_CHAR(next_watering_date, 'yyyy-mm-dd') AS next_watering_date, current_location, notes, image_url, plant_api_id, user_id FROM "plants" WHERE "user_id" = $1 ORDER BY nickname;`,
       [userId]
     )
     .then((result) => {
@@ -67,7 +65,6 @@ router.get("/user/:id", (req, res) => {
 //DELETE route
 router.delete("/delete/:id", (req, res) => {
   const plantId = req.params.id;
-  console.log("This is the plantId on server side: ", plantId);
   pool
     .query('DELETE FROM "plants" WHERE "id" = $1', [plantId])
     .then(() => res.sendStatus(200))
