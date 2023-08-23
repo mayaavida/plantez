@@ -25,6 +25,7 @@ import AddPlantPage from "../AddPlantPage/AddPlantPage";
 import UserPlantDetailsPage from "../UserPlantDetailsPage/UserPlantDetailsPage";
 import EditPlantPage from "../EditPlantPage/EditPlantPage";
 import TechPage from "../TechPage/TechPage";
+import WateringSchedulePage from "../WateringSchedulePage/WateringSchedulePage";
 
 
 import "./App.css";
@@ -114,6 +115,9 @@ function App() {
             </Route>
             <Route exact path='/tech'>
               <TechPage />
+            </Route>
+            <Route exact path='/watering'>
+              <WateringSchedulePage />
             </Route>
 
             {/* If none of the other routes matched, we will show a 404. */}

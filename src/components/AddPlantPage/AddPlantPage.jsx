@@ -3,19 +3,29 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-import { Button, Box, TextField, Typography, Checkbox, Select} from "@mui/material";
+import {
+  Button,
+  Box,
+  TextField,
+  Typography,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
+} from "@mui/material";
 
 function AddPlantPage() {
   const [nickname, setNickname] = useState("");
   const [currentLocation, setCurrentLocation] = useState("");
-  //Need to fix this. Empty string causes error if user does not put in date
   const [lastWateredDate, setLastWateredDate] = useState("");
   const [wateringInterval, setWateringInterval] = useState("");
   const [notes, setNotes] = useState("");
+
   const plantToAdd = useSelector((store) => store.plantDetails);
   const user = useSelector((store) => store.user);
   const history = useHistory();
   const dispatch = useDispatch();
+
+
 
   //Information for adding a new plant
   const newPlant = {
@@ -46,7 +56,7 @@ function AddPlantPage() {
   const addPlantToHousehold = (event) => {
     event.preventDefault();
 
-    console.log('New plant data being added:', newPlant);
+    console.log("New plant data being added:", newPlant);
 
     fetch("/api/plant/add", {
       method: "POST",
@@ -60,7 +70,12 @@ function AddPlantPage() {
         console.log(error);
       });
 
-    history.push("/user");
+    if(checked === true) {
+      history.push("/user")}
+      else if(checked === false) {
+        dispatch({ type: "SET_USER_PLANT_DETAILS", payload: newPlant });
+        history.push('/watering');
+      }
   };
 
   return (
@@ -81,7 +96,7 @@ function AddPlantPage() {
           flexDirection: "column",
           gap: 2,
           padding: 3,
-          margin: 'auto',
+          margin: "auto",
           width: 500,
           justifyContent: "center",
         }}
@@ -106,6 +121,7 @@ function AddPlantPage() {
           variant="outlined"
           type="date"
           helperText="Last Watered Date:"
+          required
           value={lastWateredDate}
           onChange={(event) => setLastWateredDate(event.target.value)}
         />
@@ -113,10 +129,11 @@ function AddPlantPage() {
           variant="outlined"
           type="number"
           helperText="How often do you want to water this plant? (days):"
+          required
           value={wateringInterval}
           onChange={(event) => setWateringInterval(event.target.value)}
         />
-        <TextField
+           <TextField
           variant="outlined"
           helperText="Notes:"
           rows={4}
@@ -124,6 +141,7 @@ function AddPlantPage() {
           value={notes}
           onChange={(event) => setNotes(event.target.value)}
         />
+       
         <Button type="submit" variant="contained">
           Add to Household
         </Button>

@@ -206,7 +206,7 @@ function UserPlantDetailsPage() {
           </Typography>
           <Typography variant="p">{last_watered_date}</Typography>
           <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-            Watering Interval:
+            Watering Interval (days):
           </Typography>
           <Typography variant="p">{watering_interval}</Typography>
           <Typography variant="h6" sx={{ fontWeight: "bold" }}>

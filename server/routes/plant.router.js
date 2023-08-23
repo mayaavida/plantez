@@ -16,7 +16,7 @@ router.post("/add", (req, res) => {
     imageUrl,
   } = req.body;
 
-  //Add calculation here // Issue at the moment is the result.getDate() piece is returning the day before, I am having to add 1 to the watering interval
+
   function nextWateringDate(lastWateredDate, wateringInterval) {
     let result = new Date(lastWateredDate);
     console.log("This is result.getDate();", result.getDate());
@@ -24,6 +24,7 @@ router.post("/add", (req, res) => {
     result.setDate(result.getDate() + (wateringInterval + 1));
     return result;
   }
+
 
   const queryText = `INSERT INTO "plants"("nickname", "plant_api_id", "user_id", "last_watered_date", "watering_interval", "next_watering_date", "current_location", "notes", "image_url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);`;
 
