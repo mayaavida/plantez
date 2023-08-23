@@ -4,10 +4,13 @@ PlantEZ is a full stack web application which allows you to search for and save 
 
 ## Screenshots
 
+### Homepage
 ![Screenshot of the homepage of the PlantEZ app](./screenshots/screenshot3.png "Screenshot of the homepage of the PlantEZ app")
 
+### Household summary
 ![Screenshot of a user's household on the PlantEZ app](./screenshots/screenshot2.png "Screenshot of a user's household on the PlantEZ app")
 
+### Plant detail page
 ![Screenshot of plant details on the PlantEZ app](./screenshots/screenshot4.png "Screenshot of plant details on the PlantEZ app")
 
 
