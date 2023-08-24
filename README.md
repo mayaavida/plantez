@@ -2,6 +2,8 @@
 
 PlantEZ is a full stack web application which allows you to search for and save your household plants. You can customize and track your plant's watering schedules, find out if your plants are poisonous to pets, and make sure that each species is getting the correct amount of sun. Never kill your houseplants again! 
 
+[Live app here!](https://plantez-b2407ef07622.herokuapp.com/#/home)
+
 ## Screenshots
 
 ### Homepage
